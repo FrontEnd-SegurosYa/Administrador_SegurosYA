@@ -9,8 +9,7 @@ function PaginaInicio() {
     return (
         <>
           <Navbar/>
-          <ContenedorPrincipal/>
-          <Presentacion/>
+         
         </>
     );
   }
