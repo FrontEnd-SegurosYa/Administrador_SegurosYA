@@ -8,6 +8,8 @@ import {
 
 import IngresarCuenta from './paginas/IngresarCuenta';
 import GestionClientes from './componentes/gestionClientes/GestionClientes';
+import ModuloReportes from './componentes/reportes/ModuloReportes';
+
 
 
 
@@ -19,6 +21,10 @@ const router = createBrowserRouter([
     {
       path: "/clientes",
       element: <GestionClientes/>,
+    },
+    {
+      path: "/reportes",
+      element: <ModuloReportes/>,
     },
   ]);
 

@@ -3,6 +3,7 @@ import './BotonesPaginacion.css';
 import exportar from '../../img/Exportar.png';
 import nuevo from '../../img/Nuevo.png';
 import cargaMasiva from '../../img/CargaMasiva.png';
+import { utils, writeFile } from 'xlsx';
 
 
 function BotonesYPaginacion({
@@ -12,6 +13,7 @@ function BotonesYPaginacion({
   handlePageChange,
   listaPaginas,
   handleFileUpload,
+  listaClientes,
 }) {
 
     const fileInputRef = useRef(null);
@@ -44,6 +46,15 @@ function BotonesYPaginacion({
     fileInput.click();
   };
 
+  const handleExportarClick = (listaClientes) => {
+    const dataArray = Object.entries(listaClientes); 
+    const worksheetData = listaClientes.map((cliente, index) => ({ Index: index + 1, ...cliente }));
+    const worksheet = utils.json_to_sheet(worksheetData);
+    const workbook = utils.book_new();
+    utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+    writeFile(workbook, 'listaClientes.xlsx');
+  };
+
   const handleInputChange = (event) => {
     const file = event.target.files[0];
     handleFileUpload(file);
@@ -56,7 +67,7 @@ function BotonesYPaginacion({
       <div className="botones">
         <button className="boton-con-icono"><img src={nuevo} alt="Icono" className="icono" />Nuevo</button>
         <button className="boton-con-icono" onClick={handleFileSelect}><img src={cargaMasiva} alt="Icono" className="icono" />Carga Masiva</button>
-        <button className="boton-con-icono"><img src={exportar} alt="Icono" className="icono" />Exportar</button>
+        <button className="boton-con-icono" onClick={() => handleExportarClick(listaClientes)}><img src={exportar} alt="Icono" className="icono" />Exportar</button>
         <button style={{ backgroundColor: 'var(--colorRojo)', color: 'var(--colorBlanco2)'}}>Eliminar</button>
         <button>Clientes Especiales</button>
         <input

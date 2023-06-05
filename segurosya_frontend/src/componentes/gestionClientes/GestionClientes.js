@@ -84,6 +84,7 @@ function GestionClientes() {
           indicePagina={indicePagina}
           handlePageChange={handlePageChange}
           listaPaginas={listaPaginas}
+          listaClientes={listaClientes}
         />
       </div>
     </>
