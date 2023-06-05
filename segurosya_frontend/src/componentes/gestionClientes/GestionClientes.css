@@ -19,54 +19,5 @@
 
 }
 
-.botones {
-    display: flex;
-}
 
-.botones button {
-  margin-right: 10px;
-  border-radius: 4px;
-  background-color: var(--colorBlanco1);
-  outline: 1px var(--colorAzul1);
-}
-
-.pagination {
-    display: flex;
-    margin-top: 30px;
-}
-
-.pagination-button {
-  padding: 5px 10px;
-  margin-right: 5px;
-  background-color: var(--colorBlanco1);
-  outline: 1px var(--colorAzul1);
-  border-radius: 4px;
-  cursor: pointer;
-  height: 30px;
-}
-
-.pagination-button.current {
-  background-color: var(--colorCeleste2);
-  color: var(--colorAzul1);
-  outline: 1px var(--colorAzul1);
-}
-
-.contenedorBotones{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-}
-
-.boton-con-icono {
-    display: flex;
-    align-items: center;
-    padding: 5px;
-  }
-  
-  .icono {
-    width: 20px; /* Ajusta el tamaño del icono */
-    height: 20px;
-    margin-right: 5px; /* Ajusta el espacio entre el icono y el texto */
-  }
   
