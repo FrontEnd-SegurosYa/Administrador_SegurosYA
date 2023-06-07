@@ -6,7 +6,6 @@ import Navbar from '../componentes/navbar/Navbar';
 function IngresarCuenta() {
   return (
     <>
-      <Navbar/>
       <IniciarSesion/>
     </>
   );

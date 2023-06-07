@@ -4,10 +4,47 @@
 	background-color: var(--colorAzul1);
 }
 
-.tituloNavbar{
-	font-size: 20px
-}
 
 .navbar-nav .nav-link:hover {
 	color: var(--colorCeleste2);
 }
+
+.tab{
+	/* Estilos para el menú de pestañas */
+	list-style: none;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+  
+.tab-button {
+	/* Estilos para los botones de pestaña */
+	background-color: rgba(210, 214, 232, 0.68);
+	border: none;
+	border-radius: 4px;
+	padding: 10px 85px;
+	margin-right: 8px;
+	cursor: pointer;
+	font-weight: bold;
+	color: var(--colorBlanco2);
+  }
+  
+  .tab-button.active {
+	/* Estilos para el botón activo */
+	background-color: #4287f5;
+	color: white;
+  }
+
+  .titulosAdminNavBar{
+	font-weight: bold;
+	color: var(--colorBlanco2);
+	font-size: 30px;
+  }
+
+  .tab-content{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+  }

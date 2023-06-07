@@ -8,6 +8,7 @@ import {
 
 import IngresarCuenta from './paginas/IngresarCuenta';
 import GestionClientes from './componentes/gestionClientes/GestionClientes';
+import AdminClientes from './paginas/AdminClientes';
 import ModuloReportes from './componentes/reportes/ModuloReportes';
 
 
@@ -20,7 +21,8 @@ const router = createBrowserRouter([
     },
     {
       path: "/clientes",
-      element: <GestionClientes/>,
+      // element: <GestionClientes/>,
+      element: <AdminClientes/>,
     },
     {
       path: "/reportes",
