@@ -13,6 +13,16 @@ function GestionClientes() {
   const [listaPaginas, setListaPaginas] = useState([[]]);
   const [indicePagina, setIndicePagina] = useState(0);
   const [cantidadLineas, setCantidadLineas] = useState(CANTIDAD_LINEAS_POR_DEFECTO);
+  const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
+  const [clientesSeleccionados, setClientesSeleccionados] = useState([]);
+
+  const seleccionCliente = (idCliente) => {
+    if (clientesSeleccionados.includes(idCliente)) {
+      setClientesSeleccionados(clientesSeleccionados.filter((id) => id !== idCliente));
+    } else {
+      setClientesSeleccionados([...clientesSeleccionados, idCliente]);
+    }
+  };
 
   const cabeceraTabla = [
     "",
@@ -55,20 +65,19 @@ function GestionClientes() {
   return (
     <>
       <div id='ContenedorGestionClientes'>
-        <table id='TablaCLientes'>
-          {/* Cabeceras */}
-          <thead>
-            <tr key={"Cabecera"}>
-              {cabeceraTabla.map(cabecera => (
-                <th key={cabecera}>{cabecera}</th>
-              ))}
-            </tr>
-          </thead>
+        <table id='TablaCLientes'>          
           {/* Cuerpo */}
           <tbody>
             {listaPaginas[indicePagina].slice(0, cantidadLineas).map(cliente => (
               <tr key={cliente.idCliente}>
-                <td key={cabeceraTabla[0]}> <input type='checkbox' /> </td>
+                {/* Cabeceras */}
+                <td key={cabeceraTabla[0]}>
+                  <input
+                    type='checkbox'
+                    checked={clientesSeleccionados.includes(cliente.idCliente)}
+                    onChange={() => seleccionCliente(cliente.idCliente)}
+                  />
+                </td>
                 <td key={cabeceraTabla[1]}> {cliente.idCliente} </td>
                 <td key={cabeceraTabla[2]}> {cliente.nombre + " " + cliente.apellidoPaterno + " " + cliente.apellidoMaterno} </td>
                 <td key={cabeceraTabla[3]}> {cliente.dni} </td>
@@ -85,6 +94,8 @@ function GestionClientes() {
           handlePageChange={handlePageChange}
           listaPaginas={listaPaginas}
           listaClientes={listaClientes}
+          clientesSeleccionados={clientesSeleccionados}
+          setClientesSeleccionados={setClientesSeleccionados}
         />
       </div>
     </>

@@ -1,15 +1,47 @@
 /* Importacion de colores */
 @import "../../index.css"; 
 
+
 .ContenedorReportes {
-    background-color: var(--colorBlanco1);
-    margin-top:        2%;
-    margin-bottom:     2%;
-    margin-left:       2%;
-    margin-right:      2%;
+    background-color: var(--colorCeleste3);
+    position: fixed;
+    top: 2%;
+    right: 2%;
+    bottom: 2%;
+    left: 2%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
     border-radius: 30px;
-    padding-top:        2%;
-    padding-bottom:     2%;
-    padding-left:       2%;
-    padding-right:      2%;
+    flex-wrap: wrap;
+}
+
+.ContenedorBoton{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+.BotonReporte {
+    background: var(--colorBlanco1);
+    color: var(--colorNegro);
+    border: 2px solid var(--colorNegro);
+    font-weight: 600;
+    border-radius: 20px;
+    font-family: 'Montserrat';
+    padding: 8px 25px;
+    
+    width: 600px;
+    border-width: 3px;
+    font-weight: "semibold";
+    font-size: 45px;
+    height: 300px;
+}
+
+.BotonReporte[disabled] {
+    pointer-events: none;
+    background-color: var(--colorGris1);
+    opacity: 0.5; 
 }
