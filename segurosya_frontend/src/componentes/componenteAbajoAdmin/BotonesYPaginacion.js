@@ -14,6 +14,8 @@ function BotonesYPaginacion({
   listaPaginas,
   handleFileUpload,
   listaClientes,
+  clientesSeleccionados, 
+  setClientesSeleccionados, 
 }) {
 
     const fileInputRef = useRef(null);
@@ -60,6 +62,29 @@ function BotonesYPaginacion({
     handleFileUpload(file);
   };
 
+  const handleEliminarClick = () => {
+    clientesSeleccionados.forEach((idCliente) => {
+      fetch(`/api/cliente/eliminar`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ idCliente: idCliente }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Manejar los datos de respuesta según sea necesario
+          console.log(`Cliente ${idCliente} eliminado correctamente`);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    });
+    
+    // Limpiar los clientes seleccionados después de eliminarlos
+    setClientesSeleccionados([]);
+  };
+  
 
   return (
     <div className="contenedorBotones">
@@ -68,7 +93,7 @@ function BotonesYPaginacion({
         <button className="boton-con-icono"><img src={nuevo} alt="Icono" className="icono" />Nuevo</button>
         <button className="boton-con-icono" onClick={handleFileSelect}><img src={cargaMasiva} alt="Icono" className="icono" />Carga Masiva</button>
         <button className="boton-con-icono" onClick={() => handleExportarClick(listaClientes)}><img src={exportar} alt="Icono" className="icono" />Exportar</button>
-        <button style={{ backgroundColor: 'var(--colorRojo)', color: 'var(--colorBlanco2)'}}>Eliminar</button>
+        <button style={{ backgroundColor: 'var(--colorRojo)', color: 'var(--colorBlanco2)'}} onClick={handleEliminarClick}>Eliminar</button>
         <button>Clientes Especiales</button>
         <input
           type="file"
