@@ -13,7 +13,6 @@ function GestionClientes() {
   const [listaPaginas, setListaPaginas] = useState([[]]);
   const [indicePagina, setIndicePagina] = useState(0);
   const [cantidadLineas, setCantidadLineas] = useState(CANTIDAD_LINEAS_POR_DEFECTO);
-  const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
   const [clientesSeleccionados, setClientesSeleccionados] = useState([]);
 
   const seleccionCliente = (idCliente) => {
