@@ -9,6 +9,7 @@ import {
 import IngresarCuenta from './paginas/IngresarCuenta';
 import AdminClientes from './paginas/AdminClientes';
 import Reportes from './paginas/Reportes';
+import AdminCotizaciones from './paginas/AdminCotizaciones';
 
 
 
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
     {
       path: "/reportes",
       element: <Reportes/>,
+    },
+    {
+      path: "/cotizaciones",
+      element: <AdminCotizaciones/>,
     },
   ]);
 
