@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 
 
 function ModuloReportes() {
-    
     return (
-        <>
+        <div className='ContenedorPrincipal'>
+            <br></br>
             <div className='ContenedorReportes'>
                 <div className="ContenedorBoton">
                     <button className="BotonReporte" disabled style={{ marginRight: '100px' }}>Reporte de Ventas de Pólizas</button>
@@ -16,7 +16,8 @@ function ModuloReportes() {
                     <button className="BotonReporte">Reporte SOAT más vendidos</button>
                 </div>
             </div>
-        </>
+            <br></br>
+        </div>
     );
 }
 

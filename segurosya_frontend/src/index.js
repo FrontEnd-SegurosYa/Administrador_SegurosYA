@@ -7,9 +7,8 @@ import {
 
 
 import IngresarCuenta from './paginas/IngresarCuenta';
-import GestionClientes from './componentes/gestionClientes/GestionClientes';
 import AdminClientes from './paginas/AdminClientes';
-import ModuloReportes from './componentes/reportes/ModuloReportes';
+import Reportes from './paginas/Reportes';
 
 
 
@@ -26,7 +25,7 @@ const router = createBrowserRouter([
     },
     {
       path: "/reportes",
-      element: <ModuloReportes/>,
+      element: <Reportes/>,
     },
   ]);
 

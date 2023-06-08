@@ -4,7 +4,7 @@
 
 .ContenedorReportes {
     background-color: var(--colorCeleste3);
-    position: fixed;
+   
     top: 2%;
     right: 2%;
     bottom: 2%;
@@ -15,6 +15,8 @@
     justify-content: center; 
     border-radius: 30px;
     flex-wrap: wrap;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .ContenedorBoton{
@@ -33,11 +35,11 @@
     font-family: 'Montserrat';
     padding: 8px 25px;
     
-    width: 600px;
+    width: 560px;
     border-width: 3px;
     font-weight: "semibold";
     font-size: 45px;
-    height: 300px;
+    height: 280px;
 }
 
 .BotonReporte[disabled] {

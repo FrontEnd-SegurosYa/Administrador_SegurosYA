@@ -1,21 +1,16 @@
 import './Navbar.css'
 import logo from '../../img/logoNombre.png';
-import ModuloReportes from '../reportes/ModuloReportes';
 
 import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 
-function cargarContenido(archivo) {
-  import(archivo)
-}
 
-const NavbarElements = () => {
-  const [activeTab, setActiveTab] = useState('Inicio');
+const NavbarElements = ({estado}) => {
+  const [activeTab, setActiveTab] = useState(estado);
+  const [content, setContent] = useState('');
 
-  const handleTabClick = (tab,archivo) => {
+  const handleTabClick = (tab) => {
     setActiveTab(tab);
-    cargarContenido(archivo)
-
   };
 
   return(
@@ -40,47 +35,57 @@ const NavbarElements = () => {
         </div>
         <br></br>
         <div className="tab">
-          <button
-            className={`tab-button ${activeTab === 'Inicio' ? 'active' : ''}`}
-            onClick={() => handleTabClick('Inicio','')}
-          >
-            Inicio
-          </button>
-          <button
-            className={`tab-button ${activeTab === 'Clientes' ? 'active' : ''}`}
-            onClick={() => handleTabClick('Clientes','')}
-          >
-            Clientes
-          </button>
-          <button
-            className={`tab-button ${activeTab === 'Polizas' ? 'active' : ''}`}
-            onClick={() => handleTabClick('Polizas','')}
-          >
-            Pólizas
-          </button>
-          <button
-            className={`tab-button ${activeTab === 'Cotizaciones' ? 'active' : ''}`}
-            onClick={() => handleTabClick('Cotizaciones','')}
-          >
-            Cotizaciones
-          </button>
-
-          <button
-            className={`tab-button ${activeTab === 'Usuarios' ? 'active' : ''}`}
-            onClick={() => handleTabClick('Usuarios','')}
-          >
-            Usuarios
-          </button>
-
-          <button
-            className={`tab-button ${activeTab === 'Reportes' ? 'active' : ''}`}
-            onClick={() => handleTabClick('Reportes','../reportes/ModuloReportes')}
-          >
-            Reportes
-          </button>
+          <Link to={"/clientes"} >
+            <button
+              className={`tab-button ${activeTab === 'Inicio' ? 'active' : ''}`}
+              onClick={() => handleTabClick('Inicio')}
+            >
+              Inicio
+            </button>
+          </Link>
+          <Link to={"/clientes"} >
+            <button
+              className={`tab-button ${activeTab === 'Clientes' ? 'active' : ''}`}
+              onClick={() => handleTabClick('Clientes')}
+            >
+              Clientes
+            </button>
+          </Link>
+          <Link to={"/clientes"} >
+            <button
+              className={`tab-button ${activeTab === 'Polizas' ? 'active' : ''}`}
+              onClick={() => handleTabClick('Polizas')}
+            >
+              Pólizas
+            </button>
+          </Link>
+          <Link to={"/clientes"} >
+            <button
+              className={`tab-button ${activeTab === 'Cotizaciones' ? 'active' : ''}`}
+              onClick={() => handleTabClick('Cotizaciones')}
+            >
+              Cotizaciones
+            </button>
+          </Link>
+          <Link to={"/clientes"} >
+            <button
+              className={`tab-button ${activeTab === 'Usuarios' ? 'active' : ''}`}
+              onClick={() => handleTabClick('Usuarios')}
+            >
+              Usuarios
+            </button>
+          </Link>
+          <Link to={"/reportes"} >
+            <button
+              className={`tab-button ${activeTab === 'Reportes' ? 'active' : ''}`}
+              onClick={() => handleTabClick('Reportes')}
+            >
+              Reportes
+            </button>
+          </Link>
         </div>
         {/* Contenido de cada pestaña */}
-      </div>
+      </div> 
     </>
   )
 }

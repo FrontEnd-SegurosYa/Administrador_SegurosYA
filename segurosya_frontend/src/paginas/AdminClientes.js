@@ -7,7 +7,7 @@ import Navbar from '../componentes/navbar/Navbar'
 function AdminClientes () {
     return (
         <>
-            <Navbar/>
+            <Navbar estado = "Clientes" />
             <GestionClientes/>
         </>
     );
