@@ -39,6 +39,7 @@ const NavbarElements = ({estado}) => {
             <button
               className={`tab-button ${activeTab === 'Inicio' ? 'active' : ''}`}
               onClick={() => handleTabClick('Inicio')}
+              disabled
             >
               Inicio
             </button>
@@ -55,6 +56,7 @@ const NavbarElements = ({estado}) => {
             <button
               className={`tab-button ${activeTab === 'Polizas' ? 'active' : ''}`}
               onClick={() => handleTabClick('Polizas')}
+              disabled
             >
               Pólizas
             </button>
@@ -63,6 +65,7 @@ const NavbarElements = ({estado}) => {
             <button
               className={`tab-button ${activeTab === 'Cotizaciones' ? 'active' : ''}`}
               onClick={() => handleTabClick('Cotizaciones')}
+              disabled
             >
               Cotizaciones
             </button>
@@ -71,6 +74,7 @@ const NavbarElements = ({estado}) => {
             <button
               className={`tab-button ${activeTab === 'Usuarios' ? 'active' : ''}`}
               onClick={() => handleTabClick('Usuarios')}
+              disabled
             >
               Usuarios
             </button>
