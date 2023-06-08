@@ -64,7 +64,16 @@ function GestionClientes() {
   return (
     <>
       <div id='ContenedorGestionClientes'>
-        <table id='TablaCLientes'>          
+        <table id='TablaCLientes'>      
+          <thead>            
+            <tr>
+              {cabeceraTabla.map(cabecera => 
+                <td >{cabecera}</td>
+                )}
+              
+            </tr>              
+          </thead>
+
           {/* Cuerpo */}
           <tbody>
             {listaPaginas[indicePagina].slice(0, cantidadLineas).map(cliente => (

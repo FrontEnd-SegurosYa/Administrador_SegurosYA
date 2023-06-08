@@ -6,7 +6,7 @@ import cargaMasiva from '../../img/CargaMasiva.png';
 import { utils, writeFile } from 'xlsx';
 import { LINKSERVER } from '../../utiles/constantes.js';
 
-function BotonesYPaginacion({
+function BotonesYPaginacionCotizaciones({
   cantidadLineas,
   cambioCantidadLineas,
   indicePagina,
@@ -98,7 +98,7 @@ function BotonesYPaginacion({
         <button className="boton-con-icono" onClick={handleFileSelect}><img src={cargaMasiva} alt="Icono" className="icono" />Carga Masiva</button>
         <button className="boton-con-icono" onClick={() => handleExportarClick(listaCotizaciones)}><img src={exportar} alt="Icono" className="icono" />Exportar</button>
         <button style={{ backgroundColor: 'var(--colorRojo)', color: 'var(--colorBlanco2)'}} onClick={handleEliminarClick}>Eliminar</button>
-        <button>Clientes Especiales</button>
+        {/* <button>Clientes Especiales</button> */}
         <input
           type="file"
           accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
@@ -140,4 +140,4 @@ function BotonesYPaginacion({
   );
 }
 
-export default BotonesYPaginacion;
+export default BotonesYPaginacionCotizaciones;

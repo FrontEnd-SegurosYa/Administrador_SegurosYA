@@ -10,6 +10,7 @@ import IngresarCuenta from './paginas/IngresarCuenta';
 import AdminClientes from './paginas/AdminClientes';
 import Reportes from './paginas/Reportes';
 import AdminCotizaciones from './paginas/AdminCotizaciones';
+import PaginaInicio from './paginas/PaginaInicio';
 
 
 
@@ -20,8 +21,11 @@ const router = createBrowserRouter([
       element: <IngresarCuenta/>,
     },
     {
+      path: "/inicio",
+      element: <PaginaInicio/>,
+    },
+    {
       path: "/clientes",
-      // element: <GestionClientes/>,
       element: <AdminClientes/>,
     },
     {

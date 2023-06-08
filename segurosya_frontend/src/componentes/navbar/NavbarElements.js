@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 
 
-const NavbarElements = ({estado}) => {
+const NavbarElements = ({estado,infomacionCuenta}) => {
   const [activeTab, setActiveTab] = useState(estado);
   const [content, setContent] = useState('');
 
@@ -35,7 +35,7 @@ const NavbarElements = ({estado}) => {
         </div>
         <br></br>
         <div className="tab">
-          <Link to={"/clientes"} >
+          <Link to={"/clientes"} state={infomacionCuenta}>
             <button
               className={`tab-button ${activeTab === 'Inicio' ? 'active' : ''}`}
               onClick={() => handleTabClick('Inicio')}
@@ -44,7 +44,7 @@ const NavbarElements = ({estado}) => {
               Inicio
             </button>
           </Link>
-          <Link to={"/clientes"} >
+          <Link to={"/clientes"} state={infomacionCuenta}>
             <button
               className={`tab-button ${activeTab === 'Clientes' ? 'active' : ''}`}
               onClick={() => handleTabClick('Clientes')}
@@ -52,7 +52,7 @@ const NavbarElements = ({estado}) => {
               Clientes
             </button>
           </Link>
-          <Link to={"/clientes"} >
+          <Link to={"/clientes"} state={infomacionCuenta}>
             <button
               className={`tab-button ${activeTab === 'Polizas' ? 'active' : ''}`}
               onClick={() => handleTabClick('Polizas')}
@@ -61,7 +61,7 @@ const NavbarElements = ({estado}) => {
               Pólizas
             </button>
           </Link>
-          <Link to={"/clientes"} >
+          <Link to={"/cotizaciones"} state={infomacionCuenta}>
             <button
               className={`tab-button ${activeTab === 'Cotizaciones' ? 'active' : ''}`}
               onClick={() => handleTabClick('Cotizaciones')}
@@ -70,7 +70,7 @@ const NavbarElements = ({estado}) => {
               Cotizaciones
             </button>
           </Link>
-          <Link to={"/clientes"} >
+          <Link to={"/clientes"} state={infomacionCuenta}>
             <button
               className={`tab-button ${activeTab === 'Usuarios' ? 'active' : ''}`}
               onClick={() => handleTabClick('Usuarios')}
@@ -79,7 +79,7 @@ const NavbarElements = ({estado}) => {
               Usuarios
             </button>
           </Link>
-          <Link to={"/reportes"} >
+          <Link to={"/reportes"} state={infomacionCuenta}>
             <button
               className={`tab-button ${activeTab === 'Reportes' ? 'active' : ''}`}
               onClick={() => handleTabClick('Reportes')}
