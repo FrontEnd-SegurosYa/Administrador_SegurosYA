@@ -4,7 +4,7 @@ import exportar from '../../img/Exportar.png';
 import nuevo from '../../img/Nuevo.png';
 import cargaMasiva from '../../img/CargaMasiva.png';
 import { utils, writeFile } from 'xlsx';
-
+import { LINKSERVER } from '../../utiles/constantes.js';
 
 function BotonesYPaginacion({
   cantidadLineas,
@@ -64,17 +64,21 @@ function BotonesYPaginacion({
 
   const handleEliminarClick = () => {
     clientesSeleccionados.forEach((idCliente) => {
-      fetch(`/api/cliente/eliminar`, {
+      fetch(LINKSERVER+"/api/cliente/eliminar", {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ idCliente: idCliente }),
       })
-        .then((response) => response.json())
+        .then((response) => response.text())
         .then((data) => {
-          // Manejar los datos de respuesta según sea necesario
-          console.log(`Cliente ${idCliente} eliminado correctamente`);
+          if(parseInt(data)===1){
+            console.log(`Cliente ${idCliente} eliminado correctamente`);
+          }
+          else{
+            console.log(`Cliente ${idCliente} no se ha eliminado`);
+          }
         })
         .catch((error) => {
           console.error('Error:', error);
