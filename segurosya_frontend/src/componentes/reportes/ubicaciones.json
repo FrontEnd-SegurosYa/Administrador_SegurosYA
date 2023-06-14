@@ -1,0 +1,61 @@
+[
+    {
+        "nombre": "Amazonas",
+        "provincias": [
+            {
+                "nombre": "Chachapoyas",
+                "distritos": [
+                    "Chachapoyas",
+                    "Asunción"
+                ]
+            },
+            {
+                "nombre": "Bagua",
+                "distritos": [
+                    "Bagua",
+                    "Aramango"
+                ]
+            }
+        ]
+    },
+    {
+        "nombre": "Áncash",
+        "provincias": [
+            {
+                "nombre": "Huaraz",
+                "distritos": [
+                    "Huaraz",
+                    "Cochabamba"
+                ]
+            },
+            {
+                "nombre": "Aija",
+                "distritos": [
+                    "Aija",
+                    "Coris"
+                ]
+            }
+        ]
+    },
+    {
+        "nombre": "Apurímac",
+        "provincias": [
+            {
+                "nombre": "Abancay",
+                "distritos": [
+                    "Abancay",
+                    "Circa"
+                ]
+            },
+            {
+                "nombre": "Andahuaylas",
+                "distritos": [
+                    "Andahuaylas",
+                    "San Jerónimo"
+                ]
+            }
+        ]
+    }
+]
+
+  
