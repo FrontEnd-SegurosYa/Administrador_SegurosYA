@@ -35,7 +35,7 @@ const NavbarElements = ({estado,informacionCuenta}) => {
         </div>
         <br></br>
         <div className="tab">
-          <Link to={"/clientes"} state={informacionCuenta}>
+          <Link to={"/inicio"} state={informacionCuenta}>
             <button
               className={`tab-button ${activeTab === 'Inicio' ? 'active' : ''}`}
               onClick={() => handleTabClick('Inicio')}
