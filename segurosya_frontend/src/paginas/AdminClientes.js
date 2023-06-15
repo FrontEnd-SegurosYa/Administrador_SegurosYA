@@ -10,22 +10,22 @@ import { useNavigate } from "react-router-dom";
 function AdminClientes () {
     const location = useLocation();
     const navigate = useNavigate();
-    var informacionCuenta = null;
+    var cuenta = null;
 
     if(location.state !== null){
-        informacionCuenta = location.statea;
+        cuenta = location.state.cuenta;
     } 
 
-    // //Redirigir a inicio si no se realizo el flujo anterior
-    // useEffect(() => {
-    //     if(location.state === null){
-    //     navigate("/");
-    //     }
-    // },[]);
+    //Redirigir a inicio si no se realizo el flujo anterior
+    useEffect(() => {
+        if(location.state === null){
+        navigate("/");
+        }
+    },[]);
 
     return (
         <>
-            <Navbar estado = "Clientes" informacionCuenta={informacionCuenta} />
+            <Navbar estado = "Clientes" cuenta={cuenta} />
             <GestionClientes/>
         </>
     );

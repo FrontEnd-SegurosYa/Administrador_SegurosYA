@@ -24,9 +24,10 @@ export const IniciarSesion = () => {
     .then(resultado => {
       if(resultado.response_msg === "Login Success"){
         alert("Inicio de sesion correcto.");
-        navigate("/inicio",{state: {resultado}});
+        navigate("/inicio",{state: {cuenta: resultado}});
       }else{
         alert("Inicio de sesion fallido.");
+        return;
       }
       
     })

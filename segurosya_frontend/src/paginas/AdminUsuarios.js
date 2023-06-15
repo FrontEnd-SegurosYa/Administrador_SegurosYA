@@ -10,10 +10,10 @@ import GestionUsuarios from '../componentes/gestionUsuarios/GestionUsuarios';
 function AdminUsuarios () {
     const location = useLocation();
     const navigate = useNavigate();
-    var informacionCuenta = null;
+    var cuenta = null;
 
     if(location.state !== null){
-        informacionCuenta = location.state;
+        cuenta = location.state.cuenta;
     } 
 
     // //Redirigir a inicio si no se realizo el flujo anterior
@@ -25,7 +25,7 @@ function AdminUsuarios () {
 
     return (
         <>
-            <Navbar estado="Usuarios" informacionCuenta={informacionCuenta} />
+            <Navbar estado="Usuarios" cuenta={cuenta} />
             <GestionUsuarios/>
         </>
     );

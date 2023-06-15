@@ -11,23 +11,38 @@ import { useNavigate } from "react-router-dom";
 function PaginaInicio() {
   const location = useLocation();
   const navigate = useNavigate();
-  var informacionCuenta = null;
+  var cuenta = null;  
+
 
   if(location.state !== null){
-    informacionCuenta = location.statea;
+    cuenta = location.state.cuenta;
   } 
 
-  // //Redirigir a inicio si no se realizo el flujo anterior
-  // useEffect(() => {
-  //   if(location.state === null){
-  //     navigate("/");
-  //   }
-  // },[]);
+  const estiloTemporal = {
+    color: 'white',
+    fontSize: '60px',
+    textAlign: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh',
+  };
+
+  //Redirigir a inicio si no se realizo el flujo anterior
+  useEffect(() => {    
+    if(location.state === null){
+      navigate("/");
+    }
+  },[]);
+
+  
 
   return (
       <>
-        <Navbar estado="Inicio" informacionCuenta={informacionCuenta}/>
-        
+        <Navbar estado="Inicio" cuenta={cuenta }/>
+        <p style={estiloTemporal}>
+          Bienvenido {cuenta && cuenta.nombre+" "+cuenta.apellidoPaterno+" "+cuenta.apellidoMaterno}.
+        </p>
       </>
     );
   }

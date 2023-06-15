@@ -5,24 +5,25 @@ import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 
 
-const NavbarElements = ({estado,informacionCuenta}) => {
+const NavbarElements = ({estado,cuenta}) => {
   const [activeTab, setActiveTab] = useState('');
   const [content, setContent] = useState('');
 
   const handleTabClick = (tab) => {
-    // setActiveTab(tab);
+    setActiveTab(tab);
   };
 
   useEffect( () => {
     setActiveTab(estado);
+    console.log(cuenta);
   }, []);
 
   return(
     <>
       <nav className="navbar navbar-expand-lg navbar-dark">
-        <p>
+        {/* <p>
           {activeTab}
-        </p>
+        </p> */}
         <div className="container-fluid">
           <Link to={"/ "} >
             <a className="navbar-brand logo mx-2" href="#">
@@ -42,7 +43,7 @@ const NavbarElements = ({estado,informacionCuenta}) => {
         </div>
         <br></br>
         <div className="tab">
-          <Link to={"/inicio"} state={informacionCuenta} >            
+          <Link to={"/inicio"} state={{cuenta: cuenta}} >            
             <button
               className={`tab-button ${activeTab === 'Inicio' ? 'active' : ''}`}
               onClick={() => handleTabClick('Inicio')}
@@ -51,7 +52,7 @@ const NavbarElements = ({estado,informacionCuenta}) => {
             </button>
           </Link>
 
-          <Link to={"/clientes"} state={informacionCuenta}>
+          <Link to={"/clientes"} state={{cuenta: cuenta}}>
             <button
               className={`tab-button ${activeTab === 'Clientes' ? 'active' : ''}`}
               onClick={() => handleTabClick('Clientes')}
@@ -72,7 +73,7 @@ const NavbarElements = ({estado,informacionCuenta}) => {
           </Link> */}
 
 
-          <Link to={"/cotizaciones"} state={informacionCuenta}>
+          <Link to={"/cotizaciones"} state={{cuenta: cuenta}}>
             <button
               className={`tab-button ${activeTab === 'Cotizaciones' ? 'active' : ''}`}
               onClick={() => handleTabClick('Cotizaciones')}
@@ -81,7 +82,7 @@ const NavbarElements = ({estado,informacionCuenta}) => {
             </button>
           </Link>
 
-          <Link to={"/usuarios"} state={informacionCuenta}>
+          <Link to={"/usuarios"} state={{cuenta: cuenta}}>
             <button
               className={`tab-button ${activeTab === 'Usuarios' ? 'active' : ''}`}
               onClick={() => handleTabClick('Usuarios')}
@@ -89,7 +90,7 @@ const NavbarElements = ({estado,informacionCuenta}) => {
               Usuarios
             </button>
           </Link>
-          <Link to={"/reportes"} state={informacionCuenta}>
+          <Link to={"/reportes"} state={{cuenta: cuenta}}>
             <button
               className={`tab-button ${activeTab === 'Reportes' ? 'active' : ''}`}
               onClick={() => handleTabClick('Reportes')}
