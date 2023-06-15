@@ -2,20 +2,27 @@ import './Navbar.css'
 import logo from '../../img/logoNombre.png';
 
 import { Link } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 const NavbarElements = ({estado,informacionCuenta}) => {
-  const [activeTab, setActiveTab] = useState(estado);
+  const [activeTab, setActiveTab] = useState('');
   const [content, setContent] = useState('');
 
   const handleTabClick = (tab) => {
-    setActiveTab(tab);
+    // setActiveTab(tab);
   };
+
+  useEffect( () => {
+    setActiveTab(estado);
+  }, []);
 
   return(
     <>
       <nav className="navbar navbar-expand-lg navbar-dark">
+        <p>
+          {activeTab}
+        </p>
         <div className="container-fluid">
           <Link to={"/ "} >
             <a className="navbar-brand logo mx-2" href="#">
@@ -35,15 +42,15 @@ const NavbarElements = ({estado,informacionCuenta}) => {
         </div>
         <br></br>
         <div className="tab">
-          <Link to={"/inicio"} state={informacionCuenta}>
+          <Link to={"/inicio"} state={informacionCuenta} >            
             <button
               className={`tab-button ${activeTab === 'Inicio' ? 'active' : ''}`}
               onClick={() => handleTabClick('Inicio')}
-              disabled
             >
               Inicio
             </button>
           </Link>
+
           <Link to={"/clientes"} state={informacionCuenta}>
             <button
               className={`tab-button ${activeTab === 'Clientes' ? 'active' : ''}`}
@@ -52,7 +59,9 @@ const NavbarElements = ({estado,informacionCuenta}) => {
               Clientes
             </button>
           </Link>
-          <Link to={"/clientes"} state={informacionCuenta}>
+
+          {/* Polizas */}
+          {/* <Link to={"/Polizas"} state={informacionCuenta}>
             <button
               className={`tab-button ${activeTab === 'Polizas' ? 'active' : ''}`}
               onClick={() => handleTabClick('Polizas')}
@@ -60,21 +69,22 @@ const NavbarElements = ({estado,informacionCuenta}) => {
             >
               Pólizas
             </button>
-          </Link>
+          </Link> */}
+
+
           <Link to={"/cotizaciones"} state={informacionCuenta}>
             <button
               className={`tab-button ${activeTab === 'Cotizaciones' ? 'active' : ''}`}
               onClick={() => handleTabClick('Cotizaciones')}
-              disabled
             >
               Cotizaciones
             </button>
           </Link>
+
           <Link to={"/usuarios"} state={informacionCuenta}>
             <button
               className={`tab-button ${activeTab === 'Usuarios' ? 'active' : ''}`}
               onClick={() => handleTabClick('Usuarios')}
-              disabled
             >
               Usuarios
             </button>

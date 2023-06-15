@@ -25,7 +25,7 @@ function AdminUsuarios () {
 
     return (
         <>
-            <Navbar estado = "Usuarios" informacionCuenta={informacionCuenta} />
+            <Navbar estado="Usuarios" informacionCuenta={informacionCuenta} />
             <GestionUsuarios/>
         </>
     );
