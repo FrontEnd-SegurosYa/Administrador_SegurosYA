@@ -1,5 +1,6 @@
 {
   "name": "segurosya_frontend",
+  "homepage":"ec2-54-211-203-171.compute-1.amazonaws.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
