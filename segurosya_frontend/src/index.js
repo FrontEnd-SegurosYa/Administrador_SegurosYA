@@ -11,6 +11,7 @@ import AdminClientes from './paginas/AdminClientes';
 import Reportes from './paginas/Reportes';
 import AdminCotizaciones from './paginas/AdminCotizaciones';
 import PaginaInicio from './paginas/PaginaInicio';
+import AdminUsuarios from './paginas/AdminUsuarios';
 
 
 
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
     {
       path: "/cotizaciones",
       element: <AdminCotizaciones/>,
+    },
+    {
+      path: "/usuarios",
+      element: <AdminUsuarios/>,
     },
   ]);
 
