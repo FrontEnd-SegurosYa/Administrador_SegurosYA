@@ -95,6 +95,7 @@ function ModuloReportes() {
             setValue("checkboxProducto2", true);
             setValue("checkboxProducto1", false);
         }
+        console.log(selectedCheckboxProducto);
       };
 
       const cambioCheckBoxCliente = (value) => {
@@ -107,6 +108,7 @@ function ModuloReportes() {
             setValue("chechboxCliente2", true);
             setValue("checkboxCliente1", false);
         }
+        console.log(selectedCheckboxCliente);
       };
 
       const cambioCheckBoxPlan = (value) => {
@@ -119,6 +121,7 @@ function ModuloReportes() {
             setValue("chechboxPlan2", true);
             setValue("checkboxPlan1", false);
         }
+        console.log(selectedCheckboxPlan);
       };
 
     return (
@@ -144,8 +147,8 @@ function ModuloReportes() {
                         <h3 className="modal-title Textos" id="ReporteCotizacionLabel"> <b>Parámetros de Reporte:</b></h3>
                     </div>
                     <div className="modal-body Textos" >
-                        <h4>Desde:</h4>
-                        <h4>Hasta:</h4>
+                        <h4>Desde:<input type="date"></input></h4>
+                        <h4>Hasta:<input type="date"></input></h4>
                         <div>Tipo de Plan:
                             <div className='ContenedorOpciones'>
                                 <div>
@@ -170,7 +173,51 @@ function ModuloReportes() {
                                 </div>
                             </div>
                         </div>
-                        <h4>Tipo de Auto:</h4>
+                        <div>
+                            <div className='ContenedorCampoFormularioUbicacion'>
+                                {/* <div className='ContenedorCampoUbicacion'>
+                                    <div><p>Tipo de Auto:</p></div>
+                                    <div>
+                                        <select 
+                                        onChange={(e) => cambioAuto(parseInt(e.target.value))} className='Resultado' value={auto && auto.idAuto}>
+                                                {listaAuto && listaAuto.map((option) => (
+                                                <option key={option.idAuto} value={option.idAuto}>
+                                                    {option.nombre}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>                            
+                                </div>
+
+                                <div className='ContenedorCampoUbicacion'>
+                                    <div><p>Marca:</p></div>
+                                    <div>
+                                        <select 
+                                        onChange={(e) => cambioMarca(parseInt(e.target.value))} className='Resultado' value={marca && marca.idMarca}>
+                                                {listaMarca && listaMarca.map((option) => (
+                                                <option key={option.idMarca} value={option.idMarca}>
+                                                    {option.nombre}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>                            
+                                </div>
+
+                                <div className='ContenedorCampoUbicacion'>
+                                    <div><p>Modelo:</p></div>
+                                    <div>
+                                        <select
+                                        onChange={(e) => cambioModelo(parseInt(e.target.value))} className='Resultado' value={modelo && modelo.idModelo}>
+                                                {listaModelo && listaModelo.map((option) => (
+                                                <option key={option.idModelo} value={option.idModelo}>
+                                                    {option.nombre}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>                            
+                                </div> */}
+                            </div>
+                        </div>
                     </div>
                     <div className="modal-footer">
                         <Link to={"/"} >
