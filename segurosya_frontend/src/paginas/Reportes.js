@@ -10,10 +10,10 @@ function Reportes () {
 
     const location = useLocation();
     const navigate = useNavigate();
-    var informacionCuenta = null;
+    var cuenta = null;
 
     if(location.state !== null){
-        informacionCuenta = location.statea;
+        cuenta = location.state.cuenta;
     } 
 
     // //Redirigir a inicio si no se realizo el flujo anterior
@@ -25,7 +25,7 @@ function Reportes () {
 
     return (
         <>  
-            <Navbar estado="Reportes" informacionCuenta={informacionCuenta} />
+            <Navbar estado="Reportes" cuenta={cuenta} />
             <ModuloReportes/>
         </>
     );

@@ -12,10 +12,10 @@ import { useNavigate } from "react-router-dom";
 function AdminCotizaciones () {
     const location = useLocation();
     const navigate = useNavigate();
-    var informacionCuenta = null;
+    var cuenta = null;
 
     if(location.state !== null){
-        informacionCuenta = location.statea;
+        cuenta = location.state.cuenta;
     }
 
 
@@ -28,7 +28,7 @@ function AdminCotizaciones () {
 
     return (
         <>
-            <Navbar estado = "Cotizaciones" informacionCuenta={informacionCuenta} />
+            <Navbar estado = "Cotizaciones" cuenta={cuenta} />
             <GestionCotizaciones/>
         </>
     );
