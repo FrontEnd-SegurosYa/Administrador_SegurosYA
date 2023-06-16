@@ -23,11 +23,15 @@ function GestionClientes() {
     }
   };
 
+  
+
   const cabeceraTabla = [
     "",
     "Codigo",
     "Nombre Completo",
     "DNI",
+    "Telefono",
+    "Correo",
     "Acciones"
   ];
 
@@ -89,7 +93,9 @@ function GestionClientes() {
                 <td key={cabeceraTabla[1]}> {cliente.idCliente} </td>
                 <td key={cabeceraTabla[2]}> {cliente.nombre + " " + cliente.apellidoPaterno + " " + cliente.apellidoMaterno} </td>
                 <td key={cabeceraTabla[3]}> {cliente.dni} </td>
-                <td key={cabeceraTabla[4]}><button>Editar</button></td>
+                <td key={cabeceraTabla[4]}> {cliente.telefono} </td>
+                <td key={cabeceraTabla[5]}> {cliente.correo} </td>
+                <td key={cabeceraTabla[6]}><button>Editar</button></td>
               </tr>
             ))}
           </tbody>
