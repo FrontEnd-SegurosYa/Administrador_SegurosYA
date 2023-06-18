@@ -2,7 +2,7 @@
 import { LINKSERVER } from '../../utiles/constantes.js';
 
 export function obtenerUsuarios() {
-return fetch(LINKSERVER+"/api/cuenta/listar")
+return fetch(LINKSERVER+"/api/cuenta/listarUsuarios")
     .then(response => {
     if (!response.ok) {
         throw new Error('Network response was not ok');

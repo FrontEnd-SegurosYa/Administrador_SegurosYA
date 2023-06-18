@@ -89,9 +89,9 @@ function GestionUsuarios() {
                   />
                 </td>
                 <td key={cabeceraTabla[1]}> {usuario.idCuenta} </td>
-                <td key={cabeceraTabla[2]}> default </td>
-                <td key={cabeceraTabla[3]}> default </td>
-                <td key={cabeceraTabla[4]}> dafault </td>
+                <td key={cabeceraTabla[2]}> {usuario.nombre+" "+usuario.apellidoPaterno+" "+usuario.apellidoMaterno} </td>
+                <td key={cabeceraTabla[3]}> {usuario.dni} </td>
+                <td key={cabeceraTabla[4]}> {usuario.telefono} </td>
                 <td key={cabeceraTabla[5]}> {usuario.correo} </td>
                 <td key={cabeceraTabla[6]}><button id="BotonEditar">Editar</button></td>
               </tr>
