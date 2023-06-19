@@ -7,6 +7,7 @@ import Navbar from '../componentes/navbar/Navbar'
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
+
 function AdminClientes () {
     const location = useLocation();
     const navigate = useNavigate();

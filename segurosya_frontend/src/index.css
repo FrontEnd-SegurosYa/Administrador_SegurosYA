@@ -113,3 +113,9 @@
     border-width: 3px;
   }
   
+
+  .btnGeneral[disabled] {
+    pointer-events: none;
+    background-color: var(--colorGris1);
+    opacity: 0.5; 
+}

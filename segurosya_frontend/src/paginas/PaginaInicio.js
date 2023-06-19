@@ -25,7 +25,13 @@ function PaginaInicio() {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh',
+    height: '50vh',
+  };
+
+  const centrarBoton = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   };
 
   //Redirigir a inicio si no se realizo el flujo anterior
@@ -40,9 +46,14 @@ function PaginaInicio() {
   return (
       <>
         <Navbar estado="Inicio" cuenta={cuenta }/>
-        <p style={estiloTemporal}>
-          Bienvenido {cuenta && cuenta.nombre+" "+cuenta.apellidoPaterno+" "+cuenta.apellidoMaterno}.
-        </p>
+        <div className='contenidoInicio'>
+          <h3 style={estiloTemporal}>
+            Bienvenido {cuenta && cuenta.nombre+" "+cuenta.apellidoPaterno+" "+cuenta.apellidoMaterno}.
+          </h3> 
+        </div>
+        <div style={centrarBoton}>
+          <button type="button" className="btnGeneral" disabled>Cargar Marcas y Modelos</button> 
+        </div>
       </>
     );
   }

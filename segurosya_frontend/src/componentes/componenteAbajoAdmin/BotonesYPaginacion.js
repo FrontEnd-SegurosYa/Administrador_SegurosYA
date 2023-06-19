@@ -1,10 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import './BotonesPaginacion.css';
 import exportar from '../../img/Exportar.png';
 import nuevo from '../../img/Nuevo.png';
 import cargaMasiva from '../../img/CargaMasiva.png';
 import { utils, writeFile } from 'xlsx';
 import { LINKSERVER } from '../../utiles/constantes.js';
+
 
 function BotonesYPaginacion({
   cantidadLineas,
@@ -89,12 +90,131 @@ function BotonesYPaginacion({
     setClientesSeleccionados([]);
   };
   
+  const centrarBotonEnviar = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  };
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    nombre: '',
+    apellido_paterno: '',
+    apellido_materno: '',
+    dni: '',
+    email: '',
+    telefono: '',
+    departamento: '',
+  });
+
+  const handleInputChange2 = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Aquí puedes realizar la lógica de envío de datos o realizar otras operaciones con los datos del formulario
+    console.log(formData);
+    setIsOpen(false);
+  };
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+  
+
 
   return (
     <div className="contenedorBotones">
       {/* Línea de botones */}
       <div className="botones">
-        <button className="boton-con-icono"><img src={nuevo} alt="Icono" className="icono" />Nuevo</button>
+        
+        <button className="boton-con-icono" onClick={openModal}><img src={nuevo} alt="Icono" className="icono" />Nuevo</button>
+        {isOpen && (
+          <div className="nuevoModal">
+            <div className="contenidoNuevoModal">
+              <span className="close" onClick={closeModal}>
+                &times;
+              </span>
+              <h2>Formulario</h2>
+              <form onSubmit={handleSubmit}>
+                <label>
+                  Nombres:
+                  <input
+                    type="text"
+                    name="nombre"
+                    value={formData.nombre}
+                    onChange={handleInputChange2}
+                    required
+                  />
+                </label>
+                <label>
+                  Apellido Paterno:
+                  <input
+                    type="text"
+                    name="apellido_paterno"
+                    value={formData.apellido_paterno}
+                    onChange={handleInputChange2}
+                    required
+                  />
+                </label>
+                <label>
+                  Apellido Materno:
+                  <input
+                    type="text"
+                    name="apellido_materno"
+                    value={formData.apellido_materno}
+                    onChange={handleInputChange2}
+                  />
+                </label>
+                <label>
+                  DNI:
+                  <input
+                    type="text"
+                    name="dni"
+                    value={formData.dni}
+                    pattern="[0-9]{8}"
+                    onChange={handleInputChange2}
+                    required
+                  />
+                </label>
+                <label>
+                  Correo electrónico:
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange2}
+                    required
+                  />
+                </label>
+                <label>
+                  Teléfono celular:
+                  <input
+                    type="text"
+                    name="telefono"
+                    value={formData.telefono}
+                    onChange={handleInputChange2}
+                    required
+                  />
+                </label>
+           
+
+                {/* Agrega aquí los campos adicionales de tu formulario */}
+                <br/>
+                <br/>
+                <div style={centrarBotonEnviar}>
+                  <button type="submit" className='btnGeneral'>Enviar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+      
         <button className="boton-con-icono" onClick={handleFileSelect}><img src={cargaMasiva} alt="Icono" className="icono" />Carga Masiva</button>
         <button className="boton-con-icono" onClick={() => handleExportarClick(listaClientes)}><img src={exportar} alt="Icono" className="icono" />Exportar</button>
         <button style={{ backgroundColor: 'var(--colorRojo)', color: 'var(--colorBlanco2)'}} onClick={handleEliminarClick}>Eliminar</button>
