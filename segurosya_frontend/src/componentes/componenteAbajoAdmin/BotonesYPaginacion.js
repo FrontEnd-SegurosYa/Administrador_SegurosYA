@@ -8,6 +8,7 @@ import { LINKSERVER } from '../../utiles/constantes.js';
 import { cargaMasivaClientesEspeciales } from './funcionesExtras';
 
 
+
 function BotonesYPaginacion({
   cantidadLineas,
   cambioCantidadLineas,
@@ -18,6 +19,10 @@ function BotonesYPaginacion({
   listaClientes,
   clientesSeleccionados, 
   setClientesSeleccionados, 
+  actualizarLista,
+  setActualizarLista,
+  mostrarModal,
+  setMostrarModal,
 }) {
 
     const fileInputRef = useRef(null);
@@ -76,7 +81,16 @@ function BotonesYPaginacion({
     handleFileUpload(file);
   };
 
+
+  const cancelarEliminar = () => {
+    setMostrarModal(false);
+  };
+  
   const handleEliminarClick = () => {
+    setMostrarModal(true);
+  };
+
+  const confirmarEliminar  = () => {
     clientesSeleccionados.forEach((idCliente) => {
       fetch(LINKSERVER+"/api/cliente/eliminar", {
         method: 'DELETE',
@@ -99,8 +113,9 @@ function BotonesYPaginacion({
         });
     });
     
-    // Limpiar los clientes seleccionados después de eliminarlos
     setClientesSeleccionados([]);
+    setMostrarModal(false);
+    setActualizarLista(true);
   };
   
   const centrarBotonEnviar = {
@@ -249,6 +264,36 @@ function BotonesYPaginacion({
           />
           {/* <button className="boton-con-icono" onClick={handleFileSelect}><img src={cargaMasiva} alt="Icono" className="icono" />Carga Masiva Clientes Especiales</button> */}
         </form>
+      </div>
+
+      {/* Modal de confirmación */}
+      <div
+        className={`modal ${mostrarModal ? 'show' : ''}`}
+        style={{ display: mostrarModal ? 'block' : 'none' }}
+        tabIndex="-1"
+        role="dialog"
+      >
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Confirmar Eliminación</h5>
+              <button type="button" className="close" onClick={cancelarEliminar}>
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <p>¿Estás seguro de que deseas eliminar el/los cliente(s) seleccionado(s)?</p>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-danger" onClick={confirmarEliminar}>
+                Eliminar
+              </button>
+              <button type="button" className="btn btn-secondary" onClick={cancelarEliminar}>
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="cantidadLineas">
