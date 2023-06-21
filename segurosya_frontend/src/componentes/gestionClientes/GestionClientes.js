@@ -15,6 +15,12 @@ function GestionClientes() {
   const [cantidadLineas, setCantidadLineas] = useState(CANTIDAD_LINEAS_POR_DEFECTO);
   const [clientesSeleccionados, setClientesSeleccionados] = useState([]);
 
+  const [actualizarLista, setActualizarLista] = useState(false);
+  const [mostrarModal, setMostrarModal] = useState(false);
+
+
+
+
   const seleccionCliente = (idCliente) => {
     if (clientesSeleccionados.includes(idCliente)) {
       setClientesSeleccionados(clientesSeleccionados.filter((id) => id !== idCliente));
@@ -38,7 +44,7 @@ function GestionClientes() {
 
   useEffect(() => {
     obtenerClientes()
-      .then(data => {
+      .then((data) => {
         setListaClientes(data);
         const paginas = dividirPaginas(data, cantidadLineas);
         setListaPaginas(paginas);
@@ -46,10 +52,17 @@ function GestionClientes() {
           setIndicePagina(paginas.length - 1);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error:', error);
       });
-  }, [cantidadLineas, indicePagina]);
+  
+    // Restablecer el valor de actualizarLista después de la actualización
+    if (actualizarLista) {
+      setActualizarLista(false);
+    }
+  }, [cantidadLineas, indicePagina, actualizarLista]);
+  
+
 
   const handlePageChange = (pageNumber) => {
     setIndicePagina(pageNumber - 1);
@@ -95,6 +108,10 @@ function GestionClientes() {
           listaClientes={listaClientes}
           clientesSeleccionados={clientesSeleccionados}
           setClientesSeleccionados={setClientesSeleccionados}
+          actualizarLista={actualizarLista}
+          setActualizarLista={setActualizarLista}
+          mostrarModal={mostrarModal}
+          setMostrarModal={setMostrarModal}
         />
       </div>
     </>

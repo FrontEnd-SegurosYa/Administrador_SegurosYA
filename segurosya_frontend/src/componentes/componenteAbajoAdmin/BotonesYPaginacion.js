@@ -6,6 +6,7 @@ import cargaMasiva from '../../img/CargaMasiva.png';
 import { utils, writeFile } from 'xlsx';
 import { LINKSERVER } from '../../utiles/constantes.js';
 
+
 function BotonesYPaginacion({
   cantidadLineas,
   cambioCantidadLineas,
@@ -16,6 +17,10 @@ function BotonesYPaginacion({
   listaClientes,
   clientesSeleccionados, 
   setClientesSeleccionados, 
+  actualizarLista,
+  setActualizarLista,
+  mostrarModal,
+  setMostrarModal,
 }) {
 
     const fileInputRef = useRef(null);
@@ -62,7 +67,16 @@ function BotonesYPaginacion({
     handleFileUpload(file);
   };
 
+
+  const cancelarEliminar = () => {
+    setMostrarModal(false);
+  };
+  
   const handleEliminarClick = () => {
+    setMostrarModal(true);
+  };
+
+  const confirmarEliminar  = () => {
     clientesSeleccionados.forEach((idCliente) => {
       fetch(LINKSERVER+"/api/cliente/eliminar", {
         method: 'DELETE',
@@ -85,8 +99,9 @@ function BotonesYPaginacion({
         });
     });
     
-    // Limpiar los clientes seleccionados después de eliminarlos
     setClientesSeleccionados([]);
+    setMostrarModal(false);
+    setActualizarLista(true);
   };
   
 
@@ -106,6 +121,36 @@ function BotonesYPaginacion({
           ref={fileInputRef}
           onChange={handleInputChange}
         />
+      </div>
+
+      {/* Modal de confirmación */}
+      <div
+        className={`modal ${mostrarModal ? 'show' : ''}`}
+        style={{ display: mostrarModal ? 'block' : 'none' }}
+        tabIndex="-1"
+        role="dialog"
+      >
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Confirmar Eliminación</h5>
+              <button type="button" className="close" onClick={cancelarEliminar}>
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <p>¿Estás seguro de que deseas eliminar el/los cliente(s) seleccionado(s)?</p>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-danger" onClick={confirmarEliminar}>
+                Eliminar
+              </button>
+              <button type="button" className="btn btn-secondary" onClick={cancelarEliminar}>
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="cantidadLineas">
