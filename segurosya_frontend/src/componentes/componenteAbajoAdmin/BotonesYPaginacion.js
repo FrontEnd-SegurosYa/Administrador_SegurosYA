@@ -5,6 +5,7 @@ import nuevo from '../../img/Nuevo.png';
 import cargaMasiva from '../../img/CargaMasiva.png';
 import { utils, writeFile } from 'xlsx';
 import { LINKSERVER } from '../../utiles/constantes.js';
+import { cargaMasivaClientesEspeciales } from './funcionesExtras';
 
 
 function BotonesYPaginacion({
@@ -47,6 +48,18 @@ function BotonesYPaginacion({
   const handleFileSelect = () => {
     const fileInput = fileInputRef.current;
     fileInput.click();
+  };
+
+  const handleClientesEspecialesFile = (event) => {
+    const file = event.target.files[0];
+    // handleFileUpload(file);
+    cargaMasivaClientesEspeciales(file)
+    .then(response => {
+      console.log(response);
+    })
+    .catch(error => {
+      console.error("Error: ",error);
+    });
   };
 
   const handleExportarClick = (listaClientes) => {
@@ -226,6 +239,16 @@ function BotonesYPaginacion({
           ref={fileInputRef}
           onChange={handleInputChange}
         />
+        <form>
+          <input
+            type="file"
+            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            // style={{ display: "none" }}
+            ref={fileInputRef}
+            onChange={handleClientesEspecialesFile}
+          />
+          {/* <button className="boton-con-icono" onClick={handleFileSelect}><img src={cargaMasiva} alt="Icono" className="icono" />Carga Masiva Clientes Especiales</button> */}
+        </form>
       </div>
 
       <div className="cantidadLineas">

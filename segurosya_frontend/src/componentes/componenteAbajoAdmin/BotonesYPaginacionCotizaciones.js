@@ -5,6 +5,7 @@ import nuevo from '../../img/Nuevo.png';
 import cargaMasiva from '../../img/CargaMasiva.png';
 import { utils, writeFile } from 'xlsx';
 import { LINKSERVER } from '../../utiles/constantes.js';
+import { cargaMasivaClientesEspeciales } from './funcionesExtras';
 
 function BotonesYPaginacionCotizaciones({
   cantidadLineas,
@@ -48,6 +49,7 @@ function BotonesYPaginacionCotizaciones({
     fileInput.click();
   };
 
+  
   const handleExportarClick = (listaCotizaciones) => {
     const dataArray = Object.entries(listaCotizaciones); 
     const worksheetData = listaCotizaciones.map((cotizacion, index) => ({ Index: index + 1, ...cotizacion }));
@@ -59,8 +61,10 @@ function BotonesYPaginacionCotizaciones({
 
   const handleInputChange = (event) => {
     const file = event.target.files[0];
-    handleFileUpload(file);
+    handleFileUpload(file);    
   };
+
+  
 
   const handleEliminarClick = () => {
     cotizacionesSeleccionados.forEach((idCotizacion) => {
@@ -98,7 +102,7 @@ function BotonesYPaginacionCotizaciones({
         <button className="boton-con-icono" onClick={handleFileSelect}><img src={cargaMasiva} alt="Icono" className="icono" />Carga Masiva</button>
         <button className="boton-con-icono" onClick={() => handleExportarClick(listaCotizaciones)}><img src={exportar} alt="Icono" className="icono" />Exportar</button>
         <button style={{ backgroundColor: 'var(--colorRojo)', color: 'var(--colorBlanco2)'}} onClick={handleEliminarClick}>Eliminar</button>
-        {/* <button>Clientes Especiales</button> */}
+        <button>Clientes Especiales</button>
         <input
           type="file"
           accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
@@ -106,6 +110,7 @@ function BotonesYPaginacionCotizaciones({
           ref={fileInputRef}
           onChange={handleInputChange}
         />
+        
       </div>
 
       <div className="cantidadLineas">
