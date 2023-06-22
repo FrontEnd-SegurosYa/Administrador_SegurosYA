@@ -7,8 +7,8 @@ import cargaMasiva from '../../img/CargaMasiva.png';
 import { utils, writeFile } from 'xlsx';
 import { LINKSERVER } from '../../utiles/constantes.js';
 import { cargaMasivaClientesEspeciales } from './funcionesExtras';
-import { obtenerDepartamentos, buscarProvinciasDep ,obtenerDistritos, consultarDNI, buscarDistritosProv} from './solicitarInformacion';
-import { useNavigate } from "react-router-dom";
+import { obtenerDepartamentos, buscarProvinciasDep ,obtenerDistritos, consultarDNI, buscarDistritosProv} from './solicitarINformacion';
+import { useLocation } from "react-router-dom";
 
 
 
@@ -159,7 +159,8 @@ function BotonesYPaginacionEstandar({
     setIsOpen(false);
   };
   
-  const navigate = useNavigate();
+  const location = useLocation();
+  var informacionClienteSinCuenta = null;
 
   const { control, register,formState: { errors } ,setValue} = useForm();
   
@@ -218,12 +219,73 @@ function BotonesYPaginacionEstandar({
     // console.log("id a cambiar: "+idDepartamento);
 };
 
-const cambioDistrito = (idDistrito) => {
-    var distObtenido = listaDistritos.find( (distrito)  => distrito.idDistrito === idDistrito);
-    setDistrito(distObtenido);
-};
+  const cambioDistrito = (idDistrito) => {
+      var distObtenido = listaDistritos.find( (distrito)  => distrito.idDistrito === idDistrito);
+      setDistrito(distObtenido);
+  };
+
+  
+  if(location.state !== null){
+    //Informacion que es devuelta
+    informacionClienteSinCuenta = location.state.informacionClienteSinCuenta;
+  }
 
 
+  useEffect( () => {
+
+    // fetch data
+    obtenerDepartamentos()
+    .then( listaDeps => {
+            
+            setListaDepartamentos(listaDeps); 
+            setDepartamento(informacionClienteSinCuenta.ubicacion.departamento);
+
+            buscarProvinciasDep(informacionClienteSinCuenta.ubicacion.departamento.idDepartamento)
+            .then(listaProvs => {
+                setListaProvincias(listaProvs);
+                setProvincia(informacionClienteSinCuenta.ubicacion.provincia);
+
+                buscarDistritosProv(informacionClienteSinCuenta.ubicacion.provincia.idProvincia)
+                .then(listaDists => {
+                    setDistrito(informacionClienteSinCuenta.ubicacion.distrito);
+                    setListaDistritos(listaDists);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            })
+            .catch( error => {
+                console.error('Error:', error);
+            });
+            setDepartamento(listaDeps[0]);
+            
+            buscarProvinciasDep(listaDeps[0].idDepartamento)
+            .then( listaProvs => {
+                    // console.log(listaProvs);
+                    setListaProvincias(listaProvs);
+                    setProvincia(listaProvs[0]);
+
+                    buscarDistritosProv(listaProvs[0].idProvincia)
+                    .then(listaDists => {
+                        setDistrito(listaDists[0]);
+                        setListaDistritos(listaDists);
+                        
+                    })
+                    .catch( error => {
+                        console.error('Error:', error);
+                    });
+                    
+                    //Temporal
+                    
+            }).catch( error => {
+                console.error('Error:', error);
+            });  
+                      
+        }).catch( error => {
+            console.error('Error:', error);
+        }); 
+     
+}, [] );
 
   return (
     <div className="contenedorBotones">
