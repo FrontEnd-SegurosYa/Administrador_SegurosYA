@@ -87,7 +87,7 @@ function GestionPolizas() {
           <thead>            
             <tr>
               {cabeceraTabla.map(cabecera => 
-                <td >{cabecera}</td>
+                <td key={cabecera}>{cabecera}</td>
                 )}
               
             </tr>              
