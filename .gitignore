@@ -1,0 +1,5 @@
+# Archivos generados por el entorno de desarrollo
+segurosya_frontend/node_modules/
+segurosya_frontend/build/
+dist/
+.cache/
