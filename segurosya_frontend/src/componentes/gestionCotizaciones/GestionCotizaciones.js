@@ -3,7 +3,7 @@ import './GestionCotizaciones.css';
 import '../../index.css';
 import { obtenerCotizaciones, dividirPaginas } from './funcionesExtras';
 import BotonesYPaginacionCotizaciones from '../componenteAbajoAdmin/BotonesYPaginacionCotizaciones'
-
+import BotonesYPaginacionEstandar from '../componenteAbajoAdmin/BotonesYPaginacionEstandar'
 
 const MAX_LINEAS_POR_PAGINA = 15;
 const CANTIDAD_LINEAS_POR_DEFECTO = 10;
@@ -73,7 +73,7 @@ function GestionCotizaciones() {
           <thead>            
             <tr>
               {cabeceraTabla.map(cabecera => 
-                <td >{cabecera}</td>
+                <td key={cabecera}>{cabecera}</td>
                 )}
               
             </tr>                          
@@ -101,7 +101,7 @@ function GestionCotizaciones() {
           </tbody>
         </table>
         {/*llamamos al componente de abajo (botones y paginacion)*/}
-        <BotonesYPaginacionCotizaciones
+        <BotonesYPaginacionEstandar
           cantidadLineas={cantidadLineas}
           cambioCantidadLineas={cambioCantidadLineas}
           indicePagina={indicePagina}

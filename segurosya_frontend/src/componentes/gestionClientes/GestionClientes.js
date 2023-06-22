@@ -115,7 +115,7 @@ function GestionClientes() {
           </tbody>
         </table>
         {/*llamamos al componente de abajo (botones y paginacion)*/}
-        <BotonesYPaginacionEstandar
+        <BotonesPaginacion
           cantidadLineas={cantidadLineas}
           cambioCantidadLineas={cambioCantidadLineas}
           indicePagina={indicePagina}
