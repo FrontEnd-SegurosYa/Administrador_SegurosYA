@@ -8,7 +8,7 @@ import cargaMasiva from '../../img/CargaMasiva.png';
 import { utils, writeFile } from 'xlsx';
 import { LINKSERVER } from '../../utiles/constantes.js';
 import { cargaMasivaClientesEspeciales, cargaMasivaClientesEspecialesPrueba } from './funcionesExtras';
-import { obtenerDepartamentos, buscarProvinciasDep ,obtenerDistritos, consultarDNI, buscarDistritosProv} from './solicitarINformacion';
+import { obtenerDepartamentos, buscarProvinciasDep ,obtenerDistritos, consultarDNI, buscarDistritosProv} from './solicitarInformacion';
 
 
 
@@ -27,6 +27,7 @@ function BotonesYPaginacion({
   setActualizarLista,
   mostrarModal,
   setMostrarModal,
+  //refrescarPagina
 }) {
 
     const fileInputRef = useRef(null);
@@ -111,6 +112,7 @@ function BotonesYPaginacion({
           else{
             console.log(`Cliente ${idCliente} no se ha eliminado`);
           }
+          // refrescarPagina();
         })
         .catch((error) => {
           console.error('Error:', error);
@@ -431,16 +433,7 @@ function BotonesYPaginacion({
           ref={fileInputRef}
           onChange={handleClientesEspecialesFile}
         />
-        {/* <form> */}
-          {/* <input */}
-            {/* type="file"
-            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-            // style={{ display: "none" }}
-            ref={fileInputRef}
-            onChange={handleClientesEspecialesFile}
-          /> */}
-          {/* <button className="boton-con-icono" onClick={handleFileSelect}><img src={cargaMasiva} alt="Icono" className="icono" />Carga Masiva Clientes Especiales</button> */}
-        {/* </form> */}
+        
       </div>
 
       {/* Modal de confirmación */}

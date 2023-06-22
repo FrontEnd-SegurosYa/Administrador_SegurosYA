@@ -6,8 +6,8 @@ import nuevo from '../../img/Nuevo.png';
 import cargaMasiva from '../../img/CargaMasiva.png';
 import { utils, writeFile } from 'xlsx';
 import { LINKSERVER } from '../../utiles/constantes.js';
-import { cargaMasivaClientesEspeciales } from './funcionesExtras';
-import { obtenerDepartamentos, buscarProvinciasDep ,obtenerDistritos, consultarDNI, buscarDistritosProv} from './solicitarINformacion';
+import { cargaMasivaClientesEspeciales, cargaMasivaClientesEspecialesPrueba } from './funcionesExtras';
+import { obtenerDepartamentos, buscarProvinciasDep ,obtenerDistritos, consultarDNI, buscarDistritosProv} from './solicitarInformacion';
 import { useLocation } from "react-router-dom";
 
 
@@ -19,13 +19,14 @@ function BotonesYPaginacionEstandar({
   handlePageChange,
   listaPaginas,
   handleFileUpload,
-  listaClientes,
-  clientesSeleccionados, 
-  setClientesSeleccionados, 
-  actualizarLista,
+  listaObjetos,
+  objetosSeleccionados, 
+  setObjetosSeleccionados, 
   setActualizarLista,
   mostrarModal,
   setMostrarModal,
+  eliminarObjeto,
+  nombreObjeto
 }) {
 
     const fileInputRef = useRef(null);
@@ -58,10 +59,10 @@ function BotonesYPaginacionEstandar({
     fileInput.click();
   };
 
-  const handleClientesEspecialesFile = (event) => {
+  const handleCargaMasivaFile = (event) => {
     const file = event.target.files[0];
-    // handleFileUpload(file);
-    cargaMasivaClientesEspeciales(file)
+    handleFileUpload(file)
+    //cargaMasivaClientesEspecialesPrueba(file)
     .then(response => {
       console.log(response);
     })
@@ -70,9 +71,9 @@ function BotonesYPaginacionEstandar({
     });
   };
 
-  const handleExportarClick = (listaClientes) => {
-    const dataArray = Object.entries(listaClientes); 
-    const worksheetData = listaClientes.map((cliente, index) => ({ Index: index + 1, ...cliente }));
+  const handleExportarClick = (listaObjetos) => {
+    const dataArray = Object.entries(listaObjetos); 
+    const worksheetData = listaObjetos.map((objeto, index) => ({ Index: index + 1, ...objeto }));
     const worksheet = utils.json_to_sheet(worksheetData);
     const workbook = utils.book_new();
     utils.book_append_sheet(workbook, worksheet, 'Sheet1');
@@ -94,29 +95,25 @@ function BotonesYPaginacionEstandar({
   };
 
   const confirmarEliminar  = () => {
-    clientesSeleccionados.forEach((idCliente) => {
-      fetch(LINKSERVER+"/api/cliente/eliminar", {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ idCliente: idCliente }),
+    objetosSeleccionados.forEach((objeto) => {
+      // console.log("objeto a enviar: "+objeto);
+      // console.log(typeof(objeto));
+      eliminarObjeto(objeto)
+      .then((response) => response)
+      .then((data) => {
+        if(parseInt(data) === 1){
+          console.log(`${nombreObjeto} ${objeto} eliminado correctamente`);
+        }
+        else{
+          console.log(`${nombreObjeto} ${objeto} no se ha eliminado`);
+        }
       })
-        .then((response) => response.text())
-        .then((data) => {
-          if(parseInt(data)===1){
-            console.log(`Cliente ${idCliente} eliminado correctamente`);
-          }
-          else{
-            console.log(`Cliente ${idCliente} no se ha eliminado`);
-          }
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
+      .catch((error) => {
+        console.error('Error:', error);
+      });
     });
     
-    setClientesSeleccionados([]);
+    setObjetosSeleccionados([]);
     setMostrarModal(false);
     setActualizarLista(true);
   };
@@ -238,7 +235,7 @@ function BotonesYPaginacionEstandar({
     .then( listaDeps => {
             
             setListaDepartamentos(listaDeps); 
-            setDepartamento(informacionClienteSinCuenta.ubicacion.departamento);
+            setDepartamento(listaDeps[0]);
 
             buscarProvinciasDep(informacionClienteSinCuenta.ubicacion.departamento.idDepartamento)
             .then(listaProvs => {
@@ -404,8 +401,20 @@ function BotonesYPaginacionEstandar({
         )}
       
         <button className="boton-con-icono" onClick={handleFileSelect}><img src={cargaMasiva} alt="Icono" className="icono" />Carga Masiva</button>
-        <button className="boton-con-icono" onClick={() => handleExportarClick(listaClientes)}><img src={exportar} alt="Icono" className="icono" />Exportar</button>
-        <button style={{ backgroundColor: 'var(--colorRojo)', color: 'var(--colorBlanco2)'}} onClick={handleEliminarClick}>Eliminar</button>        
+        <button className="boton-con-icono" onClick={() => handleExportarClick(listaObjetos)}><img src={exportar} alt="Icono" className="icono" />Exportar</button>
+        {nombreObjeto!=="ClienteEspecial" ? 
+          <button style={{ backgroundColor: 'var(--colorRojo)', color: 'var(--colorBlanco2)'}} onClick={handleEliminarClick}>Eliminar</button>
+        :
+          <></>
+        }
+        {/* <button style={{ backgroundColor: 'var(--colorRojo)', color: 'var(--colorBlanco2)'}} onClick={handleEliminarClick}>Eliminar</button>         */}
+        <input
+          type="file"
+          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+          style={{ display: "none" }}
+          ref={fileInputRef}
+          onChange={handleCargaMasivaFile}
+        />
       </div>
 
       {/* Modal de confirmación */}
