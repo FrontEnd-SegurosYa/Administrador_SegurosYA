@@ -22,11 +22,11 @@ function GestionPolizas() {
 
 
 
-  const seleccionCliente = (idCliente) => {
-    if (polizasSeleccionadas.includes(idCliente)) {
-      setPolizasSeleccionadas(polizasSeleccionadas.filter((id) => id !== idCliente));
+  const seleccionPoliza = (idPoliza) => {
+    if (polizasSeleccionadas.includes(idPoliza)) {
+      setPolizasSeleccionadas(polizasSeleccionadas.filter((id) => id !== idPoliza));
     } else {
-      setPolizasSeleccionadas([...polizasSeleccionadas, idCliente]);
+      setPolizasSeleccionadas([...polizasSeleccionadas, idPoliza]);
     }
   };
 
@@ -50,6 +50,7 @@ function GestionPolizas() {
   useEffect(() => {
     obtenerPolizas()
       .then((data) => {
+        console.log(data);
         setListaPolizas(data);
         const paginas = dividirPaginas(data, cantidadLineas);
         setListaPaginas(paginas);
@@ -101,14 +102,14 @@ function GestionPolizas() {
                   <input
                     type='checkbox'
                     checked={polizasSeleccionadas.includes(poliza.idCliente)}
-                    onChange={() => seleccionCliente(poliza.idCliente)}
+                    onChange={() => seleccionPoliza(poliza.idCliente)}
                   />
                 </td>
                 <td key={cabeceraTabla[1]}> {poliza.idPoliza} </td>
-                <td key={cabeceraTabla[2]}> {poliza.idCliente} </td>
-                <td key={cabeceraTabla[3]}> {poliza.idPlan} </td>
-                <td key={cabeceraTabla[4]}> {poliza.fechaInicio.slice(0,10)+" - "+poliza.fechaFin.slice(0,10)} </td>
-                <td key={cabeceraTabla[5]}> {typeof(poliza.fechaInicio)} </td>
+                <td key={cabeceraTabla[2]}> {poliza.cliente_nombre+" "+poliza.cliente_apellidoPaterno+" "+poliza.cliente_apellidoMaterno} </td>
+                <td key={cabeceraTabla[3]}> {poliza.plan_nombre} </td>
+                <td key={cabeceraTabla[4]}> {poliza.fechaInicio.slice(0,10)+"  -  "+poliza.fechaFin.slice(0,10)} </td>
+                <td key={cabeceraTabla[5]}> linkDefault </td>
                 <td key={cabeceraTabla[6]}><button>Editar</button></td>
               </tr>
             ))}
