@@ -23,6 +23,8 @@ function GestionCotizaciones() {
     }
   };
 
+  var opciones = { style: 'decimal', useGrouping: true, maximumFractionDigits: 2 };
+
   const cabeceraTabla = [
     "",
     "Codigo",
@@ -89,9 +91,9 @@ function GestionCotizaciones() {
                   />
                 </td>
                 <td key={cabeceraTabla[1]}> {cotizacion.idCotizacion} </td>
-                <td key={cabeceraTabla[2]}> {cotizacion.idCliente} </td>
+                <td key={cabeceraTabla[2]}> {cotizacion.cliente_nombre+" "+cotizacion.cliente_apellidoPaterno+" "+cotizacion.cliente_apellidoMaterno} </td>
                 <td key={cabeceraTabla[3]}> {cotizacion.tieneInsVeh === true ? "Si" : "No"} </td>
-                <td key={cabeceraTabla[4]}> {cotizacion.montoPrima} </td>
+                <td key={cabeceraTabla[4]}> {cotizacion.montoPrima.toFixed(2)} </td>
                 <td key={cabeceraTabla[5]}> Default </td>
                 <td key={cabeceraTabla[6]}><button>Editar</button></td>
               </tr>
