@@ -62,15 +62,14 @@ const NavbarElements = ({estado,cuenta}) => {
           </Link>
 
           {/* Polizas */}
-          {/* <Link to={"/Polizas"} state={informacionCuenta}>
+          <Link to={"/polizas"} state={{cuenta: cuenta}}>
             <button
               className={`tab-button ${activeTab === 'Polizas' ? 'active' : ''}`}
               onClick={() => handleTabClick('Polizas')}
-              disabled
             >
               Pólizas
             </button>
-          </Link> */}
+          </Link>
 
 
           <Link to={"/cotizaciones"} state={{cuenta: cuenta}}>

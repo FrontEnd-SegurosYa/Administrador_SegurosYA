@@ -48,7 +48,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+    max-width: 100%;
 }
 
 .boton-con-icono {

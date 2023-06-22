@@ -3,7 +3,7 @@ import './GestionUsuarios.css';
 import '../../index.css';
 import { obtenerUsuarios, dividirPaginas } from './funcionesExtras';
 import BotonesPaginacion from '../componenteAbajoAdmin/BotonesYPaginacion'
-
+import BotonesYPaginacionEstandar from '../componenteAbajoAdmin/BotonesYPaginacionEstandar'
 
 const MAX_LINEAS_POR_PAGINA = 15;
 const CANTIDAD_LINEAS_POR_DEFECTO = 10;
@@ -99,7 +99,7 @@ function GestionUsuarios() {
           </tbody>
         </table>
         {/*llamamos al componente de abajo (botones y paginacion)*/}
-        <BotonesPaginacion
+        <BotonesYPaginacionEstandar
           cantidadLineas={cantidadLineas}
           cambioCantidadLineas={cambioCantidadLineas}
           indicePagina={indicePagina}

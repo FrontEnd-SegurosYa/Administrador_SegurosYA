@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import './GestionClientes.css';
+import './GestionPolizas.css';
 import '../../index.css';
-import { obtenerClientes, dividirPaginas } from './funcionesExtras';
+import { obtenerClientes, dividirPaginas, obtenerPolizas } from './funcionesExtras';
 import BotonesPaginacion from '../componenteAbajoAdmin/BotonesYPaginacion'
 import BotonesYPaginacionEstandar from '../componenteAbajoAdmin/BotonesYPaginacionEstandar'
 
@@ -9,12 +9,12 @@ import BotonesYPaginacionEstandar from '../componenteAbajoAdmin/BotonesYPaginaci
 const MAX_LINEAS_POR_PAGINA = 15;
 const CANTIDAD_LINEAS_POR_DEFECTO = 10;
 
-function GestionClientes() {
-  const [listaClientes, setListaClientes] = useState([]);
+function GestionPolizas() {
+  const [listaPolizas, setListaPolizas] = useState([]);
   const [listaPaginas, setListaPaginas] = useState([[]]);
   const [indicePagina, setIndicePagina] = useState(0);
   const [cantidadLineas, setCantidadLineas] = useState(CANTIDAD_LINEAS_POR_DEFECTO);
-  const [clientesSeleccionados, setClientesSeleccionados] = useState([]);
+  const [polizasSeleccionadas, setPolizasSeleccionadas] = useState([]);
 
   const [actualizarLista, setActualizarLista] = useState(false);
   const [mostrarModal, setMostrarModal] = useState(false);
@@ -23,10 +23,10 @@ function GestionClientes() {
 
 
   const seleccionCliente = (idCliente) => {
-    if (clientesSeleccionados.includes(idCliente)) {
-      setClientesSeleccionados(clientesSeleccionados.filter((id) => id !== idCliente));
+    if (polizasSeleccionadas.includes(idCliente)) {
+      setPolizasSeleccionadas(polizasSeleccionadas.filter((id) => id !== idCliente));
     } else {
-      setClientesSeleccionados([...clientesSeleccionados, idCliente]);
+      setPolizasSeleccionadas([...polizasSeleccionadas, idCliente]);
     }
   };
 
@@ -36,9 +36,9 @@ function GestionClientes() {
     "",
     "Codigo",
     "Nombre Completo",
-    "DNI",
-    "Telefono",
-    "Correo",
+    "Plan",
+    "Fecha Inicio - Fin",
+    "SOAT",
     "Acciones"
   ];
 
@@ -48,9 +48,9 @@ function GestionClientes() {
   };
 
   useEffect(() => {
-    obtenerClientes()
+    obtenerPolizas()
       .then((data) => {
-        setListaClientes(data);
+        setListaPolizas(data);
         const paginas = dividirPaginas(data, cantidadLineas);
         setListaPaginas(paginas);
         if (indicePagina >= paginas.length) {
@@ -86,7 +86,7 @@ function GestionClientes() {
           <thead>            
             <tr>
               {cabeceraTabla.map(cabecera => 
-                <td id='CabeceraTitulo'>{cabecera}</td>
+                <td >{cabecera}</td>
                 )}
               
             </tr>              
@@ -94,21 +94,21 @@ function GestionClientes() {
 
           {/* Cuerpo */}
           <tbody>
-            {listaPaginas[indicePagina].slice(0, cantidadLineas).map(cliente => (
-              <tr key={cliente.idCliente}>
+            {listaPaginas[indicePagina].slice(0, cantidadLineas).map(poliza => (
+              <tr key={poliza.idPoliza}>
                 {/* Cabeceras */}
                 <td key={cabeceraTabla[0]}>
                   <input
                     type='checkbox'
-                    checked={clientesSeleccionados.includes(cliente.idCliente)}
-                    onChange={() => seleccionCliente(cliente.idCliente)}
+                    checked={polizasSeleccionadas.includes(poliza.idCliente)}
+                    onChange={() => seleccionCliente(poliza.idCliente)}
                   />
                 </td>
-                <td key={cabeceraTabla[1]}> {cliente.idCliente} </td>
-                <td key={cabeceraTabla[2]}> {cliente.nombre + " " + cliente.apellidoPaterno + " " + cliente.apellidoMaterno} </td>
-                <td key={cabeceraTabla[3]}> {cliente.dni} </td>
-                <td key={cabeceraTabla[4]}> {cliente.telefono} </td>
-                <td key={cabeceraTabla[5]}> {cliente.correo} </td>
+                <td key={cabeceraTabla[1]}> {poliza.idPoliza} </td>
+                <td key={cabeceraTabla[2]}> {poliza.idCliente} </td>
+                <td key={cabeceraTabla[3]}> {poliza.idPlan} </td>
+                <td key={cabeceraTabla[4]}> {poliza.fechaInicio.slice(0,10)+" - "+poliza.fechaFin.slice(0,10)} </td>
+                <td key={cabeceraTabla[5]}> {typeof(poliza.fechaInicio)} </td>
                 <td key={cabeceraTabla[6]}><button>Editar</button></td>
               </tr>
             ))}
@@ -121,9 +121,9 @@ function GestionClientes() {
           indicePagina={indicePagina}
           handlePageChange={handlePageChange}
           listaPaginas={listaPaginas}
-          listaClientes={listaClientes}
-          clientesSeleccionados={clientesSeleccionados}
-          setClientesSeleccionados={setClientesSeleccionados}
+          listaClientes={listaPolizas}
+          clientesSeleccionados={polizasSeleccionadas}
+          setClientesSeleccionados={setPolizasSeleccionadas}
           actualizarLista={actualizarLista}
           setActualizarLista={setActualizarLista}
           mostrarModal={mostrarModal}
@@ -134,4 +134,4 @@ function GestionClientes() {
   );
 }
 
-export default GestionClientes;
+export default GestionPolizas;

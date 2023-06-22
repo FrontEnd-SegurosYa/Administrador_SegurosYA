@@ -12,6 +12,7 @@ import Reportes from './paginas/Reportes';
 import AdminCotizaciones from './paginas/AdminCotizaciones';
 import PaginaInicio from './paginas/PaginaInicio';
 import AdminUsuarios from './paginas/AdminUsuarios';
+import AdminPolizas from './paginas/AdminPolizas';
 
 
 
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
     {
       path: "/clientes",
       element: <AdminClientes/>,
+    },
+    {
+      path: "/polizas",
+      element: <AdminPolizas/>,
     },
     {
       path: "/reportes",
