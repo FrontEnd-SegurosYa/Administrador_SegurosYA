@@ -252,18 +252,18 @@ function BotonesYPaginacion({
           accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
           style={{ display: "none" }}
           ref={fileInputRef}
-          onChange={handleInputChange}
+          onChange={handleClientesEspecialesFile}
         />
-        <form>
-          <input
-            type="file"
+        {/* <form> */}
+          {/* <input */}
+            {/* type="file"
             accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
             // style={{ display: "none" }}
             ref={fileInputRef}
             onChange={handleClientesEspecialesFile}
-          />
+          /> */}
           {/* <button className="boton-con-icono" onClick={handleFileSelect}><img src={cargaMasiva} alt="Icono" className="icono" />Carga Masiva Clientes Especiales</button> */}
-        </form>
+        {/* </form> */}
       </div>
 
       {/* Modal de confirmación */}

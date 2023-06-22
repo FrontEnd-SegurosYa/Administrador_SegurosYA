@@ -86,7 +86,7 @@ function GestionClientes() {
           <thead>            
             <tr>
               {cabeceraTabla.map(cabecera => 
-                <td id='CabeceraTitulo'>{cabecera}</td>
+                <td key={cabecera} id='CabeceraTitulo'>{cabecera}</td>
                 )}
               
             </tr>              
