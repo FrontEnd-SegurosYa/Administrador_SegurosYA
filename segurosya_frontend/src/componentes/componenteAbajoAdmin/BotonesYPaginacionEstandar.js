@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import { useForm, Controller} from 'react-hook-form';
 import './BotonesPaginacion.css';
 import exportar from '../../img/Exportar.png';
 import nuevo from '../../img/Nuevo.png';
@@ -6,6 +7,8 @@ import cargaMasiva from '../../img/CargaMasiva.png';
 import { utils, writeFile } from 'xlsx';
 import { LINKSERVER } from '../../utiles/constantes.js';
 import { cargaMasivaClientesEspeciales } from './funcionesExtras';
+import { obtenerDepartamentos, buscarProvinciasDep ,obtenerDistritos, consultarDNI, buscarDistritosProv} from './solicitarInformacion';
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -133,6 +136,8 @@ function BotonesYPaginacionEstandar({
     email: '',
     telefono: '',
     departamento: '',
+    provincia: '',
+    distrito: '',
   });
 
   const handleInputChange2 = (event) => {
@@ -154,6 +159,70 @@ function BotonesYPaginacionEstandar({
     setIsOpen(false);
   };
   
+  const navigate = useNavigate();
+
+  const { control, register,formState: { errors } ,setValue} = useForm();
+  
+  const [departamento,setDepartamento] = useState();
+  const [listaDepartamentos,setListaDepartamentos] = useState([]);    
+  const [provincia,setProvincia] = useState();
+  const [listaProvincias, setListaProvincias] = useState([]);
+  const [distrito,setDistrito] = useState();
+  const [listaDistritos, setListaDistritos] = useState([]);
+
+  const ubicacion = {
+      departamento: departamento,
+      provincia: provincia,
+      distrito: distrito
+  };
+
+  const cambioDepartamento = (idDepartamento) => {
+      // const nuevoIdDepartamento = parseInt(idDepartamento);
+      var nuevoDepartamento = listaDepartamentos.find( (departamento)  => departamento.idDepartamento === idDepartamento);            
+      setDepartamento(nuevoDepartamento);
+      buscarProvinciasDep(nuevoDepartamento.idDepartamento)
+      .then(nuListaProv => {
+          setListaProvincias(nuListaProv);
+          setProvincia(nuListaProv[0]);
+
+          buscarDistritosProv(nuListaProv[0].idProvincia)
+          .then(nuListDists => {
+              setListaDistritos(nuListDists);
+              setDistrito(nuListDists[0]);
+          })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+          
+      })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+      console.log("id a cambiar: "+idDepartamento);
+  };
+  
+  const cambioProvincia = (idProvincia) => {
+    // const nuevoIdProvincia = parseInt(idProvincia);
+    var nuevaProvincia = listaProvincias.find( (provincia)  => provincia.idProvincia === idProvincia);
+    setProvincia(nuevaProvincia);
+
+    buscarDistritosProv(nuevaProvincia.idProvincia)
+    .then(nuListDists => {
+        console.log(nuListDists);
+        setListaDistritos(nuListDists);
+        setDistrito(nuListDists[0]);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+    // console.log("id a cambiar: "+idDepartamento);
+};
+
+const cambioDistrito = (idDistrito) => {
+    var distObtenido = listaDistritos.find( (distrito)  => distrito.idDistrito === idDistrito);
+    setDistrito(distObtenido);
+};
+
 
 
   return (
@@ -230,7 +299,36 @@ function BotonesYPaginacionEstandar({
                     required
                   />
                 </label>
-           
+                <label>
+                  Departamento
+                  <select onChange={(e) => cambioDepartamento(parseInt(e.target.value))} className='Resultado' value={departamento && departamento.idDepartamento}>
+                                        {listaDepartamentos && listaDepartamentos.map((option) => (
+                                        <option key={option.idDepartamento} value={option.idDepartamento}>
+                                            {option.nombre}
+                                        </option>
+                                    ))}
+                  </select>
+                </label>
+                <label>
+                    Provincia: 
+                    <select onChange={(e) => cambioProvincia(parseInt(e.target.value))} className='Resultado' value={provincia && provincia.idProvincia}>
+                                        {listaProvincias && listaProvincias.map((option) => (
+                                        <option key={option.idProvincia} value={option.idProvincia}>
+                                            {option.nombre}
+                                        </option>
+                                    ))}
+                    </select>
+                </label>
+                <label>
+                  Distrito:
+                  <select onChange={(e) => cambioDistrito(parseInt(e.target.value))} className='Resultado' value={distrito && distrito.idDistrito}>
+                                        {listaDistritos && listaDistritos.map((option) => (
+                                        <option key={option.idDistrito} value={option.idDistrito}>
+                                            {option.nombre}
+                                        </option>
+                                    ))}
+                  </select>
+                </label>
 
                 {/* Agrega aquí los campos adicionales de tu formulario */}
                 <br/>
