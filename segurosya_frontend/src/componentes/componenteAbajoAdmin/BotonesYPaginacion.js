@@ -5,7 +5,7 @@ import nuevo from '../../img/Nuevo.png';
 import cargaMasiva from '../../img/CargaMasiva.png';
 import { utils, writeFile } from 'xlsx';
 import { LINKSERVER } from '../../utiles/constantes.js';
-import { cargaMasivaClientesEspeciales } from './funcionesExtras';
+import { cargaMasivaClientesEspeciales, cargaMasivaClientesEspecialesPrueba } from './funcionesExtras';
 
 
 
@@ -58,7 +58,7 @@ function BotonesYPaginacion({
   const handleClientesEspecialesFile = (event) => {
     const file = event.target.files[0];
     // handleFileUpload(file);
-    cargaMasivaClientesEspeciales(file)
+    cargaMasivaClientesEspecialesPrueba(file)
     .then(response => {
       console.log(response);
     })

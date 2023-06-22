@@ -29,7 +29,7 @@ export function cargaMasivaClientesEspecialesPrueba (archivo) {
     //Utiles
     const formData = new FormData();
     formData.append('file',archivo);
-    return fetch(LINKSERVER+"/api/listanegra/carga", {
+    return fetch(LINKSERVER+"/api/listanegra/cargaPrueba", {
         method: "POST",
         body: formData
     })

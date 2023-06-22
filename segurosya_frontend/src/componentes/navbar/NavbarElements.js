@@ -26,9 +26,9 @@ const NavbarElements = ({estado,cuenta}) => {
         </p> */}
         <div className="container-fluid">
           <Link to={"/ "} >
-            <a className="navbar-brand logo mx-2" href="#">
+            <div className="navbar-brand logo mx-2" href="#">
               <img src = {logo} alt="" width="80" height="40" className="d-inline-block align-text-top"/>
-            </a>
+            </div>
           </Link>
         </div>
       </nav>
