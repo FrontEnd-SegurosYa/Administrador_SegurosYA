@@ -36,10 +36,12 @@ const NavbarElements = ({estado,cuenta}) => {
         <div className="tab-content">
           {activeTab === 'Inicio'&& <br/>}
           {activeTab === 'Clientes' && <div className='titulosAdminNavBar'>Módulo Clientes</div>}
+          {activeTab === 'ListaNegra' && <div className='titulosAdminNavBar'>Módulo Clientes Especiales</div>}
           {activeTab === 'Polizas' && <div className='titulosAdminNavBar'>Módulo Pólizas</div>}
           {activeTab === 'Cotizaciones' && <div className='titulosAdminNavBar'>Módulo Cotizaciones</div>}
           {activeTab === 'Usuarios' && <div className='titulosAdminNavBar'>Módulo Usuarios</div>}
           {activeTab === 'Reportes' && <div className='titulosAdminNavBar'>Módulo Reportes</div>}
+          
         </div>
         <br></br>
         <div className="tab">
@@ -58,6 +60,15 @@ const NavbarElements = ({estado,cuenta}) => {
               onClick={() => handleTabClick('Clientes')}
             >
               Clientes
+            </button>
+          </Link>
+
+          <Link to={"/listaNegra"} state={{cuenta: cuenta}}>
+            <button
+              className={`tab-button ${activeTab === 'ListaNegra' ? 'active' : ''}`}
+              onClick={() => handleTabClick('ListaNegra')}
+            >
+              Clientes Especiales
             </button>
           </Link>
 

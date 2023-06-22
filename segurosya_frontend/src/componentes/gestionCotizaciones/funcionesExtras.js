@@ -16,6 +16,48 @@ return fetch(LINKSERVER+"/api/cotizacion/listarConDatos")
     );
 }
 
+export function cargaMasivaPrueba (archivo) {
+  //Utiles
+  const formData = new FormData();
+  formData.append('file',archivo);
+  return fetch(LINKSERVER+"/api/listanegra/cargaPrueba", {
+      method: "POST",
+      body: formData
+  })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('File upload failed');
+      }else{
+          return response.text();
+      }            
+  })
+  .catch(error => {
+      console.error('Error Uploading File:', error);
+      throw error;
+  });
+}
+
+export function eliminarCotizacion(idCotizacion) {
+  return fetch(LINKSERVER+"/api/cotizacion/desactivar",{
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({idCotizacion: idCotizacion})
+  })
+  .then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+        return response.text();
+    })
+  .catch(error => {
+    console.error('Error:', error);
+    throw error;
+    }
+  );
+}
+
 export function dividirPaginas(data, cantidadLineas) {
     const result = [];
     const length = data.length;

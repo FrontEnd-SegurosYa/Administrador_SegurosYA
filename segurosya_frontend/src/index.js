@@ -13,6 +13,7 @@ import AdminCotizaciones from './paginas/AdminCotizaciones';
 import PaginaInicio from './paginas/PaginaInicio';
 import AdminUsuarios from './paginas/AdminUsuarios';
 import AdminPolizas from './paginas/AdminPolizas';
+import AdminListaNegra from './paginas/AdminListaNegra';
 
 
 
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
     {
       path: "/clientes",
       element: <AdminClientes/>,
+    },
+    {
+      path: "/listaNegra",
+      element: <AdminListaNegra/>,
     },
     {
       path: "/polizas",
