@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './GestionClientesEspeciales.css';
 import '../../index.css';
-import { obtenerClientesEspeciales, dividirPaginas,cargaMasivaPrueba, cargaMasivaClientesEspeciales } from './funcionesExtras';
+import { obtenerClientesEspeciales, dividirPaginas,cargaMasivaPrueba, cargaMasivaClientesEspeciales, eliminarClienteEspecial } from './funcionesExtras';
 import BotonesPaginacion from '../componenteAbajoAdmin/BotonesYPaginacion'
 import BotonesYPaginacionEstandar from '../componenteAbajoAdmin/BotonesYPaginacionEstandar'
 
@@ -10,7 +10,7 @@ const MAX_LINEAS_POR_PAGINA = 15;
 const CANTIDAD_LINEAS_POR_DEFECTO = 10;
 
 function GestionClientesEspeciales() {
-  const [listaClientesEspecialesSeleccionados, setListaClientesEspeciales] = useState([]);
+  const [listaClientesEspeciales, setListaClientesEspeciales] = useState([]);
   const [listaPaginas, setListaPaginas] = useState([[]]);
   const [indicePagina, setIndicePagina] = useState(0);
   const [cantidadLineas, setCantidadLineas] = useState(CANTIDAD_LINEAS_POR_DEFECTO);
@@ -49,6 +49,11 @@ function GestionClientesEspeciales() {
   useEffect(() => {
     obtenerClientesEspeciales()
       .then((data) => {
+        if(data == []){
+          setIndicePagina=0;
+          return;
+        }
+        console.log(data);
         setListaClientesEspeciales(data);
         const paginas = dividirPaginas(data, cantidadLineas);
         setListaPaginas(paginas);
@@ -93,7 +98,7 @@ function GestionClientesEspeciales() {
 
           {/* Cuerpo */}
           <tbody>
-            {listaPaginas[indicePagina].slice(0, cantidadLineas).map(clienteEspecial => (
+            {listaClientesEspeciales && listaPaginas[indicePagina].slice(0, cantidadLineas).map(clienteEspecial => (
               <tr key={clienteEspecial.numDoc}>
                 {/* Cabeceras */}
                 <td key={cabeceraTabla[0]}>
@@ -120,14 +125,14 @@ function GestionClientesEspeciales() {
           handlePageChange={handlePageChange}
           handleFileUpload={cargaMasivaClientesEspeciales}
           listaPaginas={listaPaginas}
-          listaClientes={listaClientesEspecialesSeleccionados}
-          clientesSeleccionados={clientesEspecialesSeleccionados}
-          setClientesSeleccionados={setClientesEspecialesSeleccionados}
+          listaObjetos={listaClientesEspeciales}
+          objetosSeleccionados={clientesEspecialesSeleccionados}
+          setObjetosSeleccionados={setClientesEspecialesSeleccionados}
           actualizarLista={actualizarLista}
           setActualizarLista={setActualizarLista}
           mostrarModal={mostrarModal}
           setMostrarModal={setMostrarModal}
-          eliminarObjeto={null}
+          eliminarObjeto={eliminarClienteEspecial}
           nombreObjeto={"ClienteEspecial"}
         />
       </div>
