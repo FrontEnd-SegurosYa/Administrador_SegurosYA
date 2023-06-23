@@ -9,27 +9,31 @@ import {obtenerDatosReporte} from './solicitarInfoReporte.js';
 function ReporteSoatVendidos() {
     const [listaDatos, setListaDatos] = useState([]);
     const [userData, setUserData] = useState({
-        labels: UserData.map((data) => data.Nombre),
+        labels: [],
         datasets: [
-            {
-            label: "Ventas de Soat",
-            data: UserData.map((data) => data.cantidad_vendida),
-            backgroundColor: ["blue"],
-            },
         ],
     });
     var sum = 0;
     var i = 0;
-    while(UserData[i]){
-        sum += UserData[i].cantidad_vendida;
+    while(listaDatos[i]){
+        sum += listaDatos[i].cantidad_vendida;
         i++;
     }
-    console.log(sum);
     useEffect( () => {
         obtenerDatosReporte()
-        .then( listaDat => {
-                setListaDatos(listaDat);
-                console.log(listaDat);
+        .then( lista => {
+                setListaDatos(lista);
+                console.log(lista);
+                setUserData({
+                    labels: lista.map((data) => data.Nombre),
+                    datasets: [
+                        {
+                        label: "Ventas de Soat",
+                        data: lista.map((data) => data.cantidad_vendida),
+                        backgroundColor: ["blue"],
+                        },
+                    ],
+                });
         }).catch( error => {
             console.error('Error:', error);
         });
