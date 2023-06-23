@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './GestionCotizaciones.css';
 import '../../index.css';
-import { obtenerCotizaciones, dividirPaginas } from './funcionesExtras';
+import { obtenerCotizaciones, dividirPaginas, cargaMasivaPrueba, eliminarCotizacion } from './funcionesExtras';
 import BotonesYPaginacionCotizaciones from '../componenteAbajoAdmin/BotonesYPaginacionCotizaciones'
 import BotonesYPaginacionEstandar from '../componenteAbajoAdmin/BotonesYPaginacionEstandar'
+
 
 const MAX_LINEAS_POR_PAGINA = 15;
 const CANTIDAD_LINEAS_POR_DEFECTO = 10;
@@ -14,6 +15,9 @@ function GestionCotizaciones() {
   const [indicePagina, setIndicePagina] = useState(0);
   const [cantidadLineas, setCantidadLineas] = useState(CANTIDAD_LINEAS_POR_DEFECTO);
   const [cotizacionesSeleccionadas, setCotizacionesSeleccionadas] = useState([]);
+
+  const [actualizarLista, setActualizarLista] = useState(false);
+  const [mostrarModal, setMostrarModal] = useState(false);
 
   const seleccionCotizacion = (idCotizacion) => {
     if (cotizacionesSeleccionadas.includes(idCotizacion)) {
@@ -53,7 +57,12 @@ function GestionCotizaciones() {
       .catch(error => {
         console.error('Error:', error);
       });
-  }, [cantidadLineas, indicePagina]);
+
+    // Restablecer el valor de actualizarLista después de la actualización
+    if (actualizarLista) {
+      setActualizarLista(false);
+    }
+  }, [cantidadLineas, indicePagina,actualizarLista]);
 
   const handlePageChange = (pageNumber) => {
     setIndicePagina(pageNumber - 1);
@@ -106,10 +115,18 @@ function GestionCotizaciones() {
           cambioCantidadLineas={cambioCantidadLineas}
           indicePagina={indicePagina}
           handlePageChange={handlePageChange}
+          handleFileUpload={cargaMasivaPrueba}
           listaPaginas={listaPaginas}
-          listaCotizaciones={listaCotizaciones}
-          cotizacionesSeleccionadas={cotizacionesSeleccionadas}
-          setCotizacionesSeleccionadas={setCotizacionesSeleccionadas}
+          listaObjetos={listaCotizaciones}
+          objetosSeleccionados={cotizacionesSeleccionadas}
+          setObjetosSeleccionados={setCotizacionesSeleccionadas}
+          //Pendiente
+          actualizarLista={actualizarLista}
+          setActualizarLista={setActualizarLista}
+          mostrarModal={mostrarModal}
+          setMostrarModal={setMostrarModal}
+          eliminarObjeto={eliminarCotizacion}
+          nombreObjeto={"Cotizacion"}
         />
       </div>
     </>

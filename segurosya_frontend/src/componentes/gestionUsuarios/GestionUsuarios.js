@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './GestionUsuarios.css';
 import '../../index.css';
-import { obtenerUsuarios, dividirPaginas } from './funcionesExtras';
+import { obtenerUsuarios, dividirPaginas,cargaMasivaPrueba, eliminarUsuario } from './funcionesExtras';
 import BotonesPaginacion from '../componenteAbajoAdmin/BotonesYPaginacion'
 import BotonesYPaginacionEstandar from '../componenteAbajoAdmin/BotonesYPaginacionEstandar'
 
@@ -15,7 +15,10 @@ function GestionUsuarios() {
   const [cantidadLineas, setCantidadLineas] = useState(CANTIDAD_LINEAS_POR_DEFECTO);
   const [usuariosSeleccionados, setUsuariosSeleccionados] = useState([]);
 
-  const seleccionCliente = (idUsuario) => {
+  const [actualizarLista, setActualizarLista] = useState(false);
+  const [mostrarModal, setMostrarModal] = useState(false);
+
+  const seleccionUsuario = (idUsuario) => {
     if (usuariosSeleccionados.includes(idUsuario)) {
       setUsuariosSeleccionados(usuariosSeleccionados.filter((id) => id !== idUsuario));
     } else {
@@ -40,18 +43,23 @@ function GestionUsuarios() {
 
   useEffect(() => {
     obtenerUsuarios()
-      .then(data => {
-        setListaUsuarios(data);
-        const paginas = dividirPaginas(data, cantidadLineas);
-        setListaPaginas(paginas);
-        if (indicePagina >= paginas.length) {
-          setIndicePagina(paginas.length - 1);
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  }, [cantidadLineas, indicePagina]);
+    .then(data => {
+      setListaUsuarios(data);
+      const paginas = dividirPaginas(data, cantidadLineas);
+      setListaPaginas(paginas);
+      if (indicePagina >= paginas.length) {
+        setIndicePagina(paginas.length - 1);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+
+    if (actualizarLista) {
+      setActualizarLista(false);
+    }
+
+  }, [cantidadLineas, indicePagina,actualizarLista]);
 
   const handlePageChange = (pageNumber) => {
     setIndicePagina(pageNumber - 1);
@@ -84,8 +92,8 @@ function GestionUsuarios() {
                 <td key={cabeceraTabla[0]}>
                   <input
                     type='checkbox'
-                    checked={usuariosSeleccionados.includes(usuario.idUsuario)}
-                    onChange={() => seleccionCliente(usuario.idUsuario)}
+                    checked={usuariosSeleccionados.includes(usuario.idCuenta)}
+                    onChange={() => seleccionUsuario(usuario.idCuenta)}
                   />
                 </td>
                 <td key={cabeceraTabla[1]}> {usuario.idCuenta} </td>
@@ -104,10 +112,17 @@ function GestionUsuarios() {
           cambioCantidadLineas={cambioCantidadLineas}
           indicePagina={indicePagina}
           handlePageChange={handlePageChange}
+          handleFileUpload={cargaMasivaPrueba}
           listaPaginas={listaPaginas}
-          listaClientes={listaUsuarios}
-          clientesSeleccionados={usuariosSeleccionados}
-          setClientesSeleccionados={setUsuariosSeleccionados}
+          listaObjetoss={listaUsuarios}
+          objetosSeleccionados={usuariosSeleccionados}
+          setObjetosSeleccionados={setUsuariosSeleccionados}
+          actualizarLista={actualizarLista}
+          setActualizarLista={setActualizarLista}
+          mostrarModal={mostrarModal}
+          setMostrarModal={setMostrarModal}
+          eliminarObjeto={eliminarUsuario}
+          nombreObjeto={"Usuario"}
         />
       </div>
     </>

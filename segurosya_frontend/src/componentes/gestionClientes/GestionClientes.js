@@ -67,7 +67,20 @@ function GestionClientes() {
     }
   }, [cantidadLineas, indicePagina, actualizarLista]);
   
-
+  function refrescarPagina () {
+    obtenerClientes()
+      .then((data) => {
+        setListaClientes(data);
+        const paginas = dividirPaginas(data, cantidadLineas);
+        setListaPaginas(paginas);
+        if (indicePagina >= paginas.length) {
+          setIndicePagina(paginas.length - 1);
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
 
   const handlePageChange = (pageNumber) => {
     setIndicePagina(pageNumber - 1);
@@ -128,6 +141,7 @@ function GestionClientes() {
           setActualizarLista={setActualizarLista}
           mostrarModal={mostrarModal}
           setMostrarModal={setMostrarModal}
+          //refrescarPagina={refrescarPagina}
         />
       </div>
     </>

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './GestionPolizas.css';
 import '../../index.css';
-import { obtenerClientes, dividirPaginas, obtenerPolizas } from './funcionesExtras';
+import { obtenerClientes, dividirPaginas, obtenerPolizas, eliminarPoliza,cargaMasivaPrueba } from './funcionesExtras';
 import BotonesPaginacion from '../componenteAbajoAdmin/BotonesYPaginacion'
 import BotonesYPaginacionEstandar from '../componenteAbajoAdmin/BotonesYPaginacionEstandar'
+
 
 
 const MAX_LINEAS_POR_PAGINA = 15;
@@ -50,7 +51,7 @@ function GestionPolizas() {
   useEffect(() => {
     obtenerPolizas()
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setListaPolizas(data);
         const paginas = dividirPaginas(data, cantidadLineas);
         setListaPaginas(paginas);
@@ -101,8 +102,8 @@ function GestionPolizas() {
                 <td key={cabeceraTabla[0]}>
                   <input
                     type='checkbox'
-                    checked={polizasSeleccionadas.includes(poliza.idCliente)}
-                    onChange={() => seleccionPoliza(poliza.idCliente)}
+                    checked={polizasSeleccionadas.includes(poliza.idPoliza)}
+                    onChange={() => seleccionPoliza(poliza.idPoliza)}
                   />
                 </td>
                 <td key={cabeceraTabla[1]}> {poliza.idPoliza} </td>
@@ -121,14 +122,17 @@ function GestionPolizas() {
           cambioCantidadLineas={cambioCantidadLineas}
           indicePagina={indicePagina}
           handlePageChange={handlePageChange}
+          handleFileUpload={cargaMasivaPrueba}
           listaPaginas={listaPaginas}
-          listaClientes={listaPolizas}
-          clientesSeleccionados={polizasSeleccionadas}
-          setClientesSeleccionados={setPolizasSeleccionadas}
+          listaObjetos={listaPolizas}
+          objetosSeleccionados={polizasSeleccionadas}
+          setObjetosSeleccionados={setPolizasSeleccionadas}
           actualizarLista={actualizarLista}
           setActualizarLista={setActualizarLista}
           mostrarModal={mostrarModal}
           setMostrarModal={setMostrarModal}
+          eliminarObjeto={eliminarPoliza}
+          nombreObjeto={"Poliza"}
         />
       </div>
     </>

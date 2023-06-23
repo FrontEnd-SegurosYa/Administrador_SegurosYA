@@ -1,4 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState , useEffect} from 'react';
+import { useForm, Controller} from 'react-hook-form';
+import { useLocation } from "react-router-dom";
 import './BotonesPaginacion.css';
 import exportar from '../../img/Exportar.png';
 import nuevo from '../../img/Nuevo.png';
@@ -6,6 +8,8 @@ import cargaMasiva from '../../img/CargaMasiva.png';
 import { utils, writeFile } from 'xlsx';
 import { LINKSERVER } from '../../utiles/constantes.js';
 import { cargaMasivaClientesEspeciales, cargaMasivaClientesEspecialesPrueba } from './funcionesExtras';
+import { obtenerDepartamentos, buscarProvinciasDep ,obtenerDistritos, consultarDNI, buscarDistritosProv} from './solicitarInformacion';
+
 
 
 
@@ -23,6 +27,7 @@ function BotonesYPaginacion({
   setActualizarLista,
   mostrarModal,
   setMostrarModal,
+  //refrescarPagina
 }) {
 
     const fileInputRef = useRef(null);
@@ -107,6 +112,7 @@ function BotonesYPaginacion({
           else{
             console.log(`Cliente ${idCliente} no se ha eliminado`);
           }
+          // refrescarPagina();
         })
         .catch((error) => {
           console.error('Error:', error);
@@ -133,6 +139,8 @@ function BotonesYPaginacion({
     email: '',
     telefono: '',
     departamento: '',
+    provincia: '',
+    distrito: '',
   });
 
   const handleInputChange2 = (event) => {
@@ -154,7 +162,114 @@ function BotonesYPaginacion({
     setIsOpen(false);
   };
   
+  const location = useLocation();
+  var informacionClienteSinCuenta = null;
 
+  const { control, register,formState: { errors } ,setValue} = useForm();
+  
+  const [departamento,setDepartamento] = useState();
+  const [listaDepartamentos,setListaDepartamentos] = useState([]);    
+  const [provincia,setProvincia] = useState();
+  const [listaProvincias, setListaProvincias] = useState([]);
+  const [distrito,setDistrito] = useState();
+  const [listaDistritos, setListaDistritos] = useState([]);
+
+  const ubicacion = {
+      departamento: departamento,
+      provincia: provincia,
+      distrito: distrito
+  };
+
+  const cambioDepartamento = (idDepartamento) => {
+      // const nuevoIdDepartamento = parseInt(idDepartamento);
+      var nuevoDepartamento = listaDepartamentos.find( (departamento)  => departamento.idDepartamento === idDepartamento);            
+      setDepartamento(nuevoDepartamento);
+      buscarProvinciasDep(nuevoDepartamento.idDepartamento)
+      .then(nuListaProv => {
+          setListaProvincias(nuListaProv);
+          setProvincia(nuListaProv[0]);
+
+          buscarDistritosProv(nuListaProv[0].idProvincia)
+          .then(nuListDists => {
+              setListaDistritos(nuListDists);
+              setDistrito(nuListDists[0]);
+          })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+          
+      })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+      console.log("id a cambiar: "+idDepartamento);
+  };
+  
+  const cambioProvincia = (idProvincia) => {
+    // const nuevoIdProvincia = parseInt(idProvincia);
+    var nuevaProvincia = listaProvincias.find( (provincia)  => provincia.idProvincia === idProvincia);
+    setProvincia(nuevaProvincia);
+
+    buscarDistritosProv(nuevaProvincia.idProvincia)
+    .then(nuListDists => {
+        console.log(nuListDists);
+        setListaDistritos(nuListDists);
+        setDistrito(nuListDists[0]);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+    // console.log("id a cambiar: "+idDepartamento);
+};
+
+  const cambioDistrito = (idDistrito) => {
+      var distObtenido = listaDistritos.find( (distrito)  => distrito.idDistrito === idDistrito);
+      setDistrito(distObtenido);
+  };
+
+  
+  if(location.state !== null){
+    //Informacion que es devuelta
+    informacionClienteSinCuenta = location.state.informacionClienteSinCuenta;
+  }
+
+
+//   useEffect( () => {
+
+//     // fetch data
+//     obtenerDepartamentos()
+//     .then( listaDeps => {
+            
+//             setListaDepartamentos(listaDeps);    
+//             setDepartamento(listaDeps[0]);
+            
+//             buscarProvinciasDep(listaDeps[0].idDepartamento)
+//             .then( listaProvs => {
+//                     // console.log(listaProvs);
+//                     setListaProvincias(listaProvs);
+//                     setProvincia(listaProvs[0]);
+
+//                     buscarDistritosProv(listaProvs[0].idProvincia)
+//                     .then(listaDists => {
+//                         setDistrito(listaDists[0]);
+//                         setListaDistritos(listaDists);
+                        
+//                     })
+//                     .catch( error => {
+//                         console.error('Error:', error);
+//                     });
+                    
+//                     //Temporal
+                    
+//             }).catch( error => {
+//                 console.error('Error:', error);
+//             });  
+
+//       }).catch( error => {
+//           console.error('Error:', error);
+//       }); 
+ 
+// }, [] );
 
   return (
     <div className="contenedorBotones">
@@ -230,6 +345,70 @@ function BotonesYPaginacion({
                     required
                   />
                 </label>
+                <label>
+                  Departamento:
+                  <Controller
+                      name="departamento"
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                          <select onChange={(e) => {
+                              onChange(e.target.value);
+                              cambioDepartamento(e.target.value);
+                          }}
+                          className='InputUbicacion'
+                          >
+                          {listaDepartamentos.map((option) => (
+                              <option key={option.nombre} value={option.nombre}>
+                                  {option.nombre}
+                              </option>
+                          ))}
+                          </select>
+                      )}
+                  />
+                </label>
+                <label>
+                  Provincia:
+                  <Controller
+                      name="provincia"
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                          <select onChange={(e) => {
+                              onChange(e.target.value);
+                              cambioProvincia(e.target.value);
+                          }}
+                          className='InputUbicacion'
+                          >
+                          {listaProvincias.map((option) => (
+                              <option key={option.nombre} value={option.nombre}>
+                                  {option.nombre}
+                              </option>
+                          ))}
+                          </select>     
+                      )}
+                  />
+                </label>
+                <label>
+                  Distrito:
+                  <Controller
+                    name="distrito"
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                        <select 
+                            onChange={(e) => { 
+                                onChange(e.target.value); 
+                                cambioDistrito(e.target.value);
+                            }}
+                        className='InputUbicacion'
+                        >
+                        {listaDistritos.map((distrito) => (
+                            <option key={distrito} value={distrito}>
+                                {distrito}
+                            </option>
+                        ))}
+                        </select>
+                    )}  
+                    />
+                </label>
            
 
                 {/* Agrega aquí los campos adicionales de tu formulario */}
@@ -254,16 +433,7 @@ function BotonesYPaginacion({
           ref={fileInputRef}
           onChange={handleClientesEspecialesFile}
         />
-        {/* <form> */}
-          {/* <input */}
-            {/* type="file"
-            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-            // style={{ display: "none" }}
-            ref={fileInputRef}
-            onChange={handleClientesEspecialesFile}
-          /> */}
-          {/* <button className="boton-con-icono" onClick={handleFileSelect}><img src={cargaMasiva} alt="Icono" className="icono" />Carga Masiva Clientes Especiales</button> */}
-        {/* </form> */}
+        
       </div>
 
       {/* Modal de confirmación */}
