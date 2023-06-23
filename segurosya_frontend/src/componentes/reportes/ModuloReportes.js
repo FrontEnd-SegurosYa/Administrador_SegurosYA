@@ -130,11 +130,13 @@ function ModuloReportes() {
                 <br></br>
                 <div className='ContenedorReportes'>
                     <div className="ContenedorBoton">
-                        <button className="BotonReporte" data-bs-toggle="modal" data-bs-target="#ReporteCotizacion">Reporte de Cotizaciones</button>
+                        <button className="BotonReporte" disabled data-bs-toggle="modal" data-bs-target="#ReporteCotizacion">Reporte de Cotizaciones</button>
                     </div>
                     <div className="ContenedorBoton">
-                        <button className="BotonReporte" style={{ marginRight: '100px' }} data-bs-toggle="modal" data-bs-target="#ReporteClientes">Reporte de Clientes</button>
+                        <button className="BotonReporte" disabled style={{ marginRight: '100px' }} data-bs-toggle="modal" data-bs-target="#ReporteClientes">Reporte de Clientes</button>
+                        <Link to={"/reporteSoatVendidos"} >
                         <button className="BotonReporte" >Reporte SOAT más vendidos</button>
+                        </Link>
                     </div>
                 </div>
                 <br></br>
@@ -171,51 +173,6 @@ function ModuloReportes() {
                                     className='CheckboxCircular'
                                     />   
                                 </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='ContenedorCampoFormularioUbicacion'>
-                                {/* <div className='ContenedorCampoUbicacion'>
-                                    <div><p>Tipo de Auto:</p></div>
-                                    <div>
-                                        <select 
-                                        onChange={(e) => cambioAuto(parseInt(e.target.value))} className='Resultado' value={auto && auto.idAuto}>
-                                                {listaAuto && listaAuto.map((option) => (
-                                                <option key={option.idAuto} value={option.idAuto}>
-                                                    {option.nombre}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>                            
-                                </div>
-
-                                <div className='ContenedorCampoUbicacion'>
-                                    <div><p>Marca:</p></div>
-                                    <div>
-                                        <select 
-                                        onChange={(e) => cambioMarca(parseInt(e.target.value))} className='Resultado' value={marca && marca.idMarca}>
-                                                {listaMarca && listaMarca.map((option) => (
-                                                <option key={option.idMarca} value={option.idMarca}>
-                                                    {option.nombre}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>                            
-                                </div>
-
-                                <div className='ContenedorCampoUbicacion'>
-                                    <div><p>Modelo:</p></div>
-                                    <div>
-                                        <select
-                                        onChange={(e) => cambioModelo(parseInt(e.target.value))} className='Resultado' value={modelo && modelo.idModelo}>
-                                                {listaModelo && listaModelo.map((option) => (
-                                                <option key={option.idModelo} value={option.idModelo}>
-                                                    {option.nombre}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>                            
-                                </div> */}
                             </div>
                         </div>
                     </div>
