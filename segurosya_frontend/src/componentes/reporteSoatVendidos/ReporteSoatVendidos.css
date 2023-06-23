@@ -1,0 +1,39 @@
+.imgReporte{
+    width: 100%;
+    margin-top: 1%;
+}
+
+.DatosReporte{
+    height:500px;
+    display: flex;
+    flex-direction: horizontal; 
+    background-color: #FFFF;
+    margin-left: 7.5%;
+    margin-right: 7.5%;
+    margin-top:2%;
+    border-radius: 10px;
+}
+
+.GraficaReporte{
+    margin-left:3%;
+    width: 60%;
+}
+
+.IngresoBrutoAnual{
+    background-color: #975AB6;
+    height: 40%;
+    margin-top:5%;
+    margin-bottom:0%;
+    padding-bottom:0%;
+    text-align: center;
+    color: #FFFF;
+}
+
+.CotizacionesAlMes{
+    background-color: #975AB6;
+    height: 40%;
+    margin-top:5%;
+    margin-bottom:20%;
+    text-align: center;
+    color: #FFFF;
+}

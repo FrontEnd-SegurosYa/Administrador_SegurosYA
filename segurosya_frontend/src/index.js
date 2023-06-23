@@ -13,6 +13,7 @@ import AdminCotizaciones from './paginas/AdminCotizaciones';
 import PaginaInicio from './paginas/PaginaInicio';
 import AdminUsuarios from './paginas/AdminUsuarios';
 import AdminPolizas from './paginas/AdminPolizas';
+import PaginaReporteSoatVendidos from './paginas/PaginaReporteSoatVendidos';
 
 
 
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
     {
       path: "/usuarios",
       element: <AdminUsuarios/>,
+    },
+    {
+      path: "/reporteSoatVendidos",
+      element: <PaginaReporteSoatVendidos/>,
     },
   ]);
 
