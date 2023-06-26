@@ -347,67 +347,42 @@ function BotonesYPaginacion({
                 </label>
                 <label>
                   Departamento:
-                  <Controller
-                      name="departamento"
-                      control={control}
-                      render={({ field: { onChange } }) => (
-                          <select onChange={(e) => {
-                              onChange(e.target.value);
-                              cambioDepartamento(e.target.value);
-                          }}
-                          className='InputUbicacion'
-                          >
-                          {listaDepartamentos.map((option) => (
-                              <option key={option.nombre} value={option.nombre}>
-                                  {option.nombre}
-                              </option>
-                          ))}
-                          </select>
-                      )}
-                  />
+                  <div>
+                    <select onChange={(e) => cambioDepartamento(parseInt(e.target.value))} className='Resultado' value={departamento && departamento.idDepartamento}>
+                            {listaDepartamentos && listaDepartamentos.map((option) => (
+                            <option key={option.idDepartamento} value={option.idDepartamento}>
+                                {option.nombre}
+                            </option>
+                        ))}
+                    </select>
+                    
+                </div> 
                 </label>
                 <label>
                   Provincia:
-                  <Controller
-                      name="provincia"
-                      control={control}
-                      render={({ field: { onChange } }) => (
-                          <select onChange={(e) => {
-                              onChange(e.target.value);
-                              cambioProvincia(e.target.value);
-                          }}
-                          className='InputUbicacion'
-                          >
-                          {listaProvincias.map((option) => (
-                              <option key={option.nombre} value={option.nombre}>
-                                  {option.nombre}
-                              </option>
-                          ))}
-                          </select>     
-                      )}
-                  />
+                  <div>
+                    <select onChange={(e) => cambioProvincia(parseInt(e.target.value))} className='Resultado' value={provincia && provincia.idProvincia}>
+                            {listaProvincias && listaProvincias.map((option) => (
+                            <option key={option.idProvincia} value={option.idProvincia}>
+                                {option.nombre}
+                            </option>
+                        ))}
+                    </select>
+                    
+                </div>
                 </label>
                 <label>
                   Distrito:
-                  <Controller
-                    name="distrito"
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                        <select 
-                            onChange={(e) => { 
-                                onChange(e.target.value); 
-                                cambioDistrito(e.target.value);
-                            }}
-                        className='InputUbicacion'
-                        >
-                        {listaDistritos.map((distrito) => (
-                            <option key={distrito} value={distrito}>
-                                {distrito}
+                  <div>
+                    <select onChange={(e) => cambioDistrito(parseInt(e.target.value))} className='Resultado' value={distrito && distrito.idDistrito}>
+                            {listaDistritos && listaDistritos.map((option) => (
+                            <option key={option.idDistrito} value={option.idDistrito}>
+                                {option.nombre}
                             </option>
                         ))}
-                        </select>
-                    )}  
-                    />
+                    </select>
+                    
+                </div> 
                 </label>
            
 
