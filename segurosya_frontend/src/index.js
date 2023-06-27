@@ -15,6 +15,7 @@ import AdminUsuarios from './paginas/AdminUsuarios';
 import AdminPolizas from './paginas/AdminPolizas';
 import PaginaReporteSoatVendidos from './paginas/PaginaReporteSoatVendidos';
 import AdminListaNegra from './paginas/AdminListaNegra';
+import AdminMarcasModelos from './paginas/AdminMarcasModelos';
 
 
 
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
     {
       path: "/reporteSoatVendidos",
       element: <PaginaReporteSoatVendidos/>,
+    },
+    {
+      path: "/marcasModelos",
+      element: <AdminMarcasModelos/>,
     },
   ]);
 

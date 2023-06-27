@@ -1,5 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import '../index.css';
+import { cargaMasivaSOATVigentes,cargaMasivaValoresAutos } from '../componentes/paginaInicio/funcionesExtras';
+import { ModalCargaMasivaGenerico } from '../componentes/componenteAbajoAdmin/Modales';
 
 import {Presentacion} from '../componentes/presentacion/Presentacion'
 import Navbar from '../componentes/navbar/Navbar' 
@@ -12,6 +14,49 @@ function PaginaInicio() {
   const location = useLocation();
   const navigate = useNavigate();
   var cuenta = null;  
+
+  const [modalCargaMasiva,setModalCargaMasiva] = useState(false);
+  const [listaErroresCargaMasiva,setListaErroresCargaMasiva] = useState([]);
+
+  const fileInputRefMarcaModelo = useRef(null);
+  const fileInputRefSoatVigentes = useRef(null);
+
+  const handleFileSelectMarcasModelos = () => {
+    const fileInput = fileInputRefMarcaModelo.current;
+    fileInput.click();
+  };
+
+  const handleFileSelectSoatVigentes = () => {
+    const fileInput = fileInputRefSoatVigentes.current;
+    fileInput.click();
+  };
+
+  const handleCargaMasivaFileMarcaModelo = (event) => {
+    const file = event.target.files[0];
+    cargaMasivaValoresAutos(file)
+    .then(response => {
+      console.log(response);
+      setModalCargaMasiva(true);
+      setListaErroresCargaMasiva(response);
+    })
+    .catch(error => {
+      console.error("Error: ",error);
+    });
+  };
+
+  const handleCargaMasivaFileSoatVigentes = (event) => {
+    const file = event.target.files[0];
+    cargaMasivaSOATVigentes(file)
+    .then(response => {
+      console.log(response);
+      setModalCargaMasiva(true);
+      setListaErroresCargaMasiva(response);
+    })
+    .catch(error => {
+      console.error("Error: ",error);
+    });
+  };
+
 
 
   if(location.state !== null){
@@ -52,7 +97,35 @@ function PaginaInicio() {
           </h3> 
         </div>
         <div style={centrarBoton}>
-          <button type="button" className="btnGeneral" disabled>Cargar Marcas y Modelos</button> 
+          <button type="button" className="btnGeneral" onClick={handleFileSelectMarcasModelos}>Cargar Marcas y Modelos</button> 
+          <button type="button" className="btnGeneral" onClick={handleFileSelectSoatVigentes}>Cargar Soat vigentes</button> 
+          
+
+          {/* Input archivo carga masiva */}
+          <input
+          type="file"
+          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+          style={{ display: "none" }}
+          ref={fileInputRefMarcaModelo}
+          onChange={handleCargaMasivaFileMarcaModelo}
+          />
+
+          <input
+          type="file"
+          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+          style={{ display: "none" }}
+          ref={fileInputRefSoatVigentes}
+          onChange={handleCargaMasivaFileSoatVigentes}
+          />
+
+          {modalCargaMasiva && (
+            <ModalCargaMasivaGenerico
+              listaErrores={listaErroresCargaMasiva}
+              setMostrarModal={setModalCargaMasiva}
+            />
+          )}
+
+                   
         </div>
       </>
     );

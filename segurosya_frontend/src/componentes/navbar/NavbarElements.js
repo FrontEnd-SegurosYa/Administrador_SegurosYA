@@ -41,7 +41,9 @@ const NavbarElements = ({estado,cuenta}) => {
           {activeTab === 'Polizas' && <div className='titulosAdminNavBar'>Módulo Pólizas</div>}
           {activeTab === 'Cotizaciones' && <div className='titulosAdminNavBar'>Módulo Cotizaciones</div>}
           {activeTab === 'Usuarios' && <div className='titulosAdminNavBar'>Módulo Usuarios</div>}
+          {activeTab === 'MarcasModelos' && <div className='titulosAdminNavBar'>Módulo Marcas y Modelos</div>}
           {activeTab === 'Reportes' && <div className='titulosAdminNavBar'>Módulo Reportes</div>}
+          
           
         </div>
         <br></br>
@@ -99,6 +101,14 @@ const NavbarElements = ({estado,cuenta}) => {
               onClick={() => handleTabClick('Usuarios')}
             >
               Usuarios
+            </button>
+          </Link>
+          <Link to={"/marcasModelos"} state={{cuenta: cuenta}}>
+            <button
+              className={`tab-button ${activeTab === 'MarcasModelos' ? 'active' : ''}`}
+              onClick={() => handleTabClick('MarcasModelos')}
+            >
+              Marcas y Modelos
             </button>
           </Link>
           <Link to={"/reportes"} state={{cuenta: cuenta}}>
