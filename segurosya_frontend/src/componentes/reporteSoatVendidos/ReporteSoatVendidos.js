@@ -30,7 +30,7 @@ function ReporteSoatVendidos() {
                         {
                         label: "Ventas de Soat",
                         data: lista.map((data) => data.cantidad_vendida),
-                        backgroundColor: ["blue"],
+                        backgroundColor: ["#3E54AC"],
                         },
                     ],
                 });
@@ -42,7 +42,7 @@ function ReporteSoatVendidos() {
     
     
     return (
-        <>
+        <div data-testid='reporteSoatVendidos'>
             <div className='Imagen'>
                 <img className='imgReporte' src={reporte}/>
             </div>
@@ -51,20 +51,14 @@ function ReporteSoatVendidos() {
                     <BarChart chartData={userData}/>
                 </div>
                 <div className = 'NumerosReporte'>
-                    <div className = 'IngresoBrutoAnual'>
-                        <h2>Ingreso bruto anual a la fecha</h2>
-                        <h4>24 de abril 2023</h4>
-                        <h1>S/. 1890</h1>
-                        <h4>miles de soles</h4>
-                    </div>
                     <div className = 'CotizacionesAlMes'>
-                        <h2>Cotizaciones durante el mes</h2>
-                        <br/><br/>
+                        <h3>Cotizaciones durante el mes</h3>
                         <h1>{sum}</h1>
+                        <br></br>
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
   }
   
