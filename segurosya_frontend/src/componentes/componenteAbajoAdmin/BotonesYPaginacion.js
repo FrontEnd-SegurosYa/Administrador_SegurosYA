@@ -8,7 +8,7 @@ import cargaMasiva from '../../img/CargaMasiva.png';
 import { utils, writeFile } from 'xlsx';
 import { LINKSERVER } from '../../utiles/constantes.js';
 import { cargaMasivaClientesEspeciales, cargaMasivaClientesEspecialesPrueba } from './funcionesExtras';
-import { obtenerDepartamentos, buscarProvinciasDep ,obtenerDistritos, consultarDNI, buscarDistritosProv} from './solicitarInformacion';
+import { obtenerDepartamentos, buscarProvinciasDep ,obtenerDistritos, consultarDNI, buscarDistritosProv, consultarClienteEspecial} from './solicitarInformacion';
 
 
 
@@ -147,12 +147,6 @@ function BotonesYPaginacion({
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Aquí puedes realizar la lógica de envío de datos o realizar otras operaciones con los datos del formulario
-    console.log(formData);
-    setIsOpen(false);
-  };
 
   const openModal = () => {
     setIsOpen(true);
@@ -164,8 +158,12 @@ function BotonesYPaginacion({
   
   const location = useLocation();
   var informacionClienteSinCuenta = null;
+  if(location.state !== null){
+    //Informacion que es devuelta
+    informacionClienteSinCuenta = location.state.informacionClienteSinCuenta;
+  }
 
-  const { control, register,formState: { errors } ,setValue} = useForm();
+  const { control, register,handleSubmit,formState: { errors } ,setValue} = useForm();
   
   const [departamento,setDepartamento] = useState();
   const [listaDepartamentos,setListaDepartamentos] = useState([]);    
@@ -181,31 +179,31 @@ function BotonesYPaginacion({
   };
 
   const cambioDepartamento = (idDepartamento) => {
-      // const nuevoIdDepartamento = parseInt(idDepartamento);
-      var nuevoDepartamento = listaDepartamentos.find( (departamento)  => departamento.idDepartamento === idDepartamento);            
-      setDepartamento(nuevoDepartamento);
-      buscarProvinciasDep(nuevoDepartamento.idDepartamento)
-      .then(nuListaProv => {
-          setListaProvincias(nuListaProv);
-          setProvincia(nuListaProv[0]);
+    // const nuevoIdDepartamento = parseInt(idDepartamento);
+    var nuevoDepartamento = listaDepartamentos.find( (departamento)  => departamento.idDepartamento === idDepartamento);            
+    setDepartamento(nuevoDepartamento);
+    buscarProvinciasDep(nuevoDepartamento.idDepartamento)
+    .then(nuListaProv => {
+        setListaProvincias(nuListaProv);
+        setProvincia(nuListaProv[0]);
 
-          buscarDistritosProv(nuListaProv[0].idProvincia)
-          .then(nuListDists => {
-              setListaDistritos(nuListDists);
-              setDistrito(nuListDists[0]);
-          })
-      .catch(error => {
-          console.error('Error:', error);
-      });
-          
-      })
-      .catch(error => {
-          console.error('Error:', error);
-      });
-      console.log("id a cambiar: "+idDepartamento);
+        buscarDistritosProv(nuListaProv[0].idProvincia)
+        .then(nuListDists => {
+            setListaDistritos(nuListDists);
+            setDistrito(nuListDists[0]);
+        })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+        
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+    console.log("id a cambiar: "+idDepartamento);
   };
-  
-  const cambioProvincia = (idProvincia) => {
+
+const cambioProvincia = (idProvincia) => {
     // const nuevoIdProvincia = parseInt(idProvincia);
     var nuevaProvincia = listaProvincias.find( (provincia)  => provincia.idProvincia === idProvincia);
     setProvincia(nuevaProvincia);
@@ -222,54 +220,88 @@ function BotonesYPaginacion({
     // console.log("id a cambiar: "+idDepartamento);
 };
 
-  const cambioDistrito = (idDistrito) => {
-      var distObtenido = listaDistritos.find( (distrito)  => distrito.idDistrito === idDistrito);
-      setDistrito(distObtenido);
-  };
-
-  
-  if(location.state !== null){
-    //Informacion que es devuelta
-    informacionClienteSinCuenta = location.state.informacionClienteSinCuenta;
-  }
+const cambioDistrito = (idDistrito) => {
+    var distObtenido = listaDistritos.find( (distrito)  => distrito.idDistrito === idDistrito);
+    setDistrito(distObtenido);
+};
 
 
-//   useEffect( () => {
+  useEffect( () => {
 
-//     // fetch data
-//     obtenerDepartamentos()
-//     .then( listaDeps => {
+    // fetch data
+    obtenerDepartamentos()
+    .then( listaDeps => {
             
-//             setListaDepartamentos(listaDeps);    
-//             setDepartamento(listaDeps[0]);
+            setListaDepartamentos(listaDeps);    
+            setDepartamento(listaDeps[0]);
             
-//             buscarProvinciasDep(listaDeps[0].idDepartamento)
-//             .then( listaProvs => {
-//                     // console.log(listaProvs);
-//                     setListaProvincias(listaProvs);
-//                     setProvincia(listaProvs[0]);
+            buscarProvinciasDep(listaDeps[0].idDepartamento)
+            .then( listaProvs => {
+                    // console.log(listaProvs);
+                    setListaProvincias(listaProvs);
+                    setProvincia(listaProvs[0]);
 
-//                     buscarDistritosProv(listaProvs[0].idProvincia)
-//                     .then(listaDists => {
-//                         setDistrito(listaDists[0]);
-//                         setListaDistritos(listaDists);
+                    buscarDistritosProv(listaProvs[0].idProvincia)
+                    .then(listaDists => {
+                        setDistrito(listaDists[0]);
+                        setListaDistritos(listaDists);
                         
-//                     })
-//                     .catch( error => {
-//                         console.error('Error:', error);
-//                     });
+                    })
+                    .catch( error => {
+                        console.error('Error:', error);
+                    });
                     
-//                     //Temporal
+                    //Temporal
                     
-//             }).catch( error => {
-//                 console.error('Error:', error);
-//             });  
+            }).catch( error => {
+                console.error('Error:', error);
+            });  
 
-//       }).catch( error => {
-//           console.error('Error:', error);
-//       }); 
+      }).catch( error => {
+          console.error('Error:', error);
+      }); 
  
-// }, [] );
+}, [] );
+
+const onSubmit = (data) => {
+  //setIsOpen(false);
+  consultarClienteEspecial(data.DNI)
+  // .then(resultado => {
+  //     console.log(resultado);
+  //     if(resultado.numDoc === "-1"){
+  //         consultarDNI(data.DNI)
+  //         .then(resultado => {
+  //             if(resultado.idCliente == 0){
+  //                 const informacionClienteSinCuenta = {
+  //                     nombre: data.nombre,
+  //                     apellidoPaterno: data.apellidoPaterno,
+  //                     apellidoMaterno: data.apellidoMaterno,
+  //                     DNI: data.DNI,
+  //                     correoElectronico: data.email,
+  //                     telefonoCelular: data.telefonoCelular,
+  //                     ubicacion: ubicacion
+  //                 };
+  //                 setActualizarLista(true);
+  //             }else{
+  //                 alert("El DNI ingresado ya pertenece a un cliente.");
+  //             }
+              
+  //         })
+  //         .catch(error => {
+  //             console.error(error);
+  //             return;
+  //         });
+  //     }else{
+  //         alert("Usted pertenece a nuestra lista de clientes especiales. Comuniquese con nosotros.")
+  //         return;
+  //     }
+  // })
+  // .catch(error => {
+  //     console.error(error);
+  //     return;
+  // }); 
+  
+}
 
   return (
     <div className="contenedorBotones">
@@ -278,13 +310,13 @@ function BotonesYPaginacion({
         
         <button className="boton-con-icono" onClick={openModal}><img src={nuevo} alt="Icono" className="icono" />Nuevo</button>
         {isOpen && (
-          <div className="nuevoModal">
+          <form className="nuevoModal" >
             <div className="contenidoNuevoModal">
               <span className="close" onClick={closeModal}>
                 &times;
               </span>
               <h2>Formulario</h2>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <label>
                   Nombres:
                   <input
@@ -384,9 +416,6 @@ function BotonesYPaginacion({
                     
                 </div> 
                 </label>
-           
-
-                {/* Agrega aquí los campos adicionales de tu formulario */}
                 <br/>
                 <br/>
                 <div style={centrarBotonEnviar}>
@@ -394,7 +423,7 @@ function BotonesYPaginacion({
                 </div>
               </form>
             </div>
-          </div>
+          </form>
         )}
       
         <button className="boton-con-icono" onClick={handleFileSelect}><img src={cargaMasiva} alt="Icono" className="icono" />Carga Masiva</button>
