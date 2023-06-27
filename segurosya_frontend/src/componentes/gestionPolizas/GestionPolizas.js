@@ -82,7 +82,7 @@ function GestionPolizas() {
   };
 
   return (
-    <>
+    <div data-testid='gestionPolizas'>
       <div id='ContenedorGestionClientes'>
         <table id='TablaCLientes'>      
           <thead>            
@@ -135,7 +135,7 @@ function GestionPolizas() {
           nombreObjeto={"Poliza"}
         />
       </div>
-    </>
+    </div>
   );
 }
 

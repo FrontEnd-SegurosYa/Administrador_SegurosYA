@@ -93,7 +93,7 @@ function GestionClientes() {
   };
 
   return (
-    <>
+    <div data-testid='gestionClientes'>
       <div id='ContenedorGestionClientes'>
         <table id='TablaCLientes'>      
           <thead>            
@@ -144,7 +144,7 @@ function GestionClientes() {
           //refrescarPagina={refrescarPagina}
         />
       </div>
-    </>
+    </div>
   );
 }
 

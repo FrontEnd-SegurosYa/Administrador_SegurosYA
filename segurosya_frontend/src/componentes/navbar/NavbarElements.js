@@ -16,10 +16,11 @@ const NavbarElements = ({estado,cuenta}) => {
   useEffect( () => {
     setActiveTab(estado);
     console.log(cuenta);
+    console.log(estado);
   }, []);
 
   return(
-    <>
+    <div data-testid='navBar'>
       <nav className="navbar navbar-expand-lg navbar-dark">
         {/* <p>
           {activeTab}
@@ -111,7 +112,7 @@ const NavbarElements = ({estado,cuenta}) => {
         </div>
         {/* Contenido de cada pestaña */}
       </div> 
-    </>
+    </div>
   )
 }
 

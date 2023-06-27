@@ -84,7 +84,7 @@ function GestionClientesEspeciales() {
   };
 
   return (
-    <>
+    <div data-testid='gestionClientesEspeciales'>
       <div id='ContenedorGestionClientes'>
         <table id='TablaCLientes'>      
           <thead>            
@@ -136,7 +136,7 @@ function GestionClientesEspeciales() {
           nombreObjeto={"ClienteEspecial"}
         />
       </div>
-    </>
+    </div>
   );
 }
 
