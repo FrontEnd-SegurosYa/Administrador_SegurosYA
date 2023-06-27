@@ -1,0 +1,33 @@
+/* Importacion de colores */
+@import "../../index.css"; 
+
+#ContenedorTablasMarcaModelo {
+    display: flex;
+    width: 100vw;
+    background-color: var(--colorBlanco1);
+    border-radius: 1vw;
+    
+}
+
+.contenedortabla {
+    width: 50%; /* Asigna el ancho deseado a las tablas */
+    margin-top: 1%;
+    margin-bottom: 1%;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+.tabla {
+    width: 100%;
+}
+
+.TituloTablas {
+    text-align: center;
+    width: 100%;
+}
+
+.CabeceraTablas {
+    text-align: left;
+    width: 100%;
+}
+

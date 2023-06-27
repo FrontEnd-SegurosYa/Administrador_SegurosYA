@@ -94,3 +94,4 @@ export function consultarDNI(dniBuscado) {
             }
         );
 }
+

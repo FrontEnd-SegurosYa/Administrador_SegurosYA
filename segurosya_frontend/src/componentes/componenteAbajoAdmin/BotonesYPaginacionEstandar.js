@@ -6,9 +6,10 @@ import nuevo from '../../img/Nuevo.png';
 import cargaMasiva from '../../img/CargaMasiva.png';
 import { utils, writeFile } from 'xlsx';
 import { LINKSERVER } from '../../utiles/constantes.js';
-import { cargaMasivaClientesEspeciales, cargaMasivaClientesEspecialesPrueba } from './funcionesExtras';
+import { cargaMasivaClientesEspeciales, cargaMasivaClientesEspecialesPrueba, pruebaEnvioCorreoArchivoAdjunto } from './funcionesExtras';
 import { obtenerDepartamentos, buscarProvinciasDep ,obtenerDistritos, consultarDNI, buscarDistritosProv} from './solicitarInformacion';
 import { useLocation } from "react-router-dom";
+import { ModalCargaMasivaListaNegra, ModalEliminacionMarca } from './Modales';
 
 
 
@@ -31,28 +32,35 @@ function BotonesYPaginacionEstandar({
 
     const fileInputRef = useRef(null);
     const renderPaginationButtons = () => {
-    const buttons = [];
-    const totalPages = listaPaginas.length;
-    const maxButtons = 4; // Número máximo de botones de paginación a mostrar
-    const halfMaxButtons = Math.floor(maxButtons / 2);
+      const buttons = [];
+      const totalPages = listaPaginas.length;
+      const maxButtons = 4; // Número máximo de botones de paginación a mostrar
+      const halfMaxButtons = Math.floor(maxButtons / 2);
 
-    let startPage = Math.max(indicePagina - halfMaxButtons, 0);
-    let endPage = Math.min(startPage + maxButtons - 1, totalPages - 1);
-    startPage = Math.max(endPage - maxButtons + 1, 0);
+      
 
-    for (let i = startPage; i <= endPage; i++) {
-      buttons.push(
-        <button
-          key={i}
-          onClick={() => handlePageChange(i + 1)}
-          className={i === indicePagina ? "pagination-button current" : "pagination-button"}
-        >
-          {i + 1}
-        </button>
-      );
-    }
-    return buttons;
+      let startPage = Math.max(indicePagina - halfMaxButtons, 0);
+      let endPage = Math.min(startPage + maxButtons - 1, totalPages - 1);
+      startPage = Math.max(endPage - maxButtons + 1, 0);
+
+      for (let i = startPage; i <= endPage; i++) {
+        buttons.push(
+          <button
+            key={i}
+            onClick={() => handlePageChange(i + 1)}
+            className={i === indicePagina ? "pagination-button current" : "pagination-button"}
+          >
+            {i + 1}
+          </button>
+        );
+      }
+      return buttons;
   };
+
+  const [modalCargaMasiva,setModalCargaMasiva] = useState(false);
+  const [modalEliminacion,setModalEliminacion] = useState(false);
+
+  const [listaErroresCargaMasiva,setListaErroresCargaMasiva] = useState([]);
 
   const handleFileSelect = () => {
     const fileInput = fileInputRef.current;
@@ -62,9 +70,11 @@ function BotonesYPaginacionEstandar({
   const handleCargaMasivaFile = (event) => {
     const file = event.target.files[0];
     handleFileUpload(file)
-    //cargaMasivaClientesEspecialesPrueba(file)
+    // cargaMasivaClientesEspecialesPrueba(file)
     .then(response => {
       console.log(response);
+      setModalCargaMasiva(true);
+      setListaErroresCargaMasiva(response);
     })
     .catch(error => {
       console.error("Error: ",error);
@@ -96,8 +106,6 @@ function BotonesYPaginacionEstandar({
 
   const confirmarEliminar  = () => {
     objetosSeleccionados.forEach((objeto) => {
-      // console.log("objeto a enviar: "+objeto);
-      // console.log(typeof(objeto));
       eliminarObjeto(objeto)
       .then((response) => response)
       .then((data) => {
@@ -116,6 +124,7 @@ function BotonesYPaginacionEstandar({
     setObjetosSeleccionados([]);
     setMostrarModal(false);
     setActualizarLista(true);
+    setModalCargaMasiva(true);
   };
   
   const centrarBotonEnviar = {
@@ -161,65 +170,8 @@ function BotonesYPaginacionEstandar({
 
   const { control, register,formState: { errors } ,setValue} = useForm();
   
-  const [departamento,setDepartamento] = useState();
-  const [listaDepartamentos,setListaDepartamentos] = useState([]);    
-  const [provincia,setProvincia] = useState();
-  const [listaProvincias, setListaProvincias] = useState([]);
-  const [distrito,setDistrito] = useState();
-  const [listaDistritos, setListaDistritos] = useState([]);
 
-  const ubicacion = {
-      departamento: departamento,
-      provincia: provincia,
-      distrito: distrito
-  };
 
-  const cambioDepartamento = (idDepartamento) => {
-      // const nuevoIdDepartamento = parseInt(idDepartamento);
-      var nuevoDepartamento = listaDepartamentos.find( (departamento)  => departamento.idDepartamento === idDepartamento);            
-      setDepartamento(nuevoDepartamento);
-      buscarProvinciasDep(nuevoDepartamento.idDepartamento)
-      .then(nuListaProv => {
-          setListaProvincias(nuListaProv);
-          setProvincia(nuListaProv[0]);
-
-          buscarDistritosProv(nuListaProv[0].idProvincia)
-          .then(nuListDists => {
-              setListaDistritos(nuListDists);
-              setDistrito(nuListDists[0]);
-          })
-      .catch(error => {
-          console.error('Error:', error);
-      });
-          
-      })
-      .catch(error => {
-          console.error('Error:', error);
-      });
-      console.log("id a cambiar: "+idDepartamento);
-  };
-  
-  const cambioProvincia = (idProvincia) => {
-    // const nuevoIdProvincia = parseInt(idProvincia);
-    var nuevaProvincia = listaProvincias.find( (provincia)  => provincia.idProvincia === idProvincia);
-    setProvincia(nuevaProvincia);
-
-    buscarDistritosProv(nuevaProvincia.idProvincia)
-    .then(nuListDists => {
-        console.log(nuListDists);
-        setListaDistritos(nuListDists);
-        setDistrito(nuListDists[0]);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-    // console.log("id a cambiar: "+idDepartamento);
-};
-
-  const cambioDistrito = (idDistrito) => {
-      var distObtenido = listaDistritos.find( (distrito)  => distrito.idDistrito === idDistrito);
-      setDistrito(distObtenido);
-  };
 
   
   if(location.state !== null){
@@ -229,176 +181,18 @@ function BotonesYPaginacionEstandar({
 
 
   useEffect( () => {
-
     // fetch data
-    obtenerDepartamentos()
-    .then( listaDeps => {
-            
-            setListaDepartamentos(listaDeps); 
-            setDepartamento(listaDeps[0]);
 
-            buscarProvinciasDep(informacionClienteSinCuenta.ubicacion.departamento.idDepartamento)
-            .then(listaProvs => {
-                setListaProvincias(listaProvs);
-                setProvincia(informacionClienteSinCuenta.ubicacion.provincia);
-
-                buscarDistritosProv(informacionClienteSinCuenta.ubicacion.provincia.idProvincia)
-                .then(listaDists => {
-                    setDistrito(informacionClienteSinCuenta.ubicacion.distrito);
-                    setListaDistritos(listaDists);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            })
-            .catch( error => {
-                console.error('Error:', error);
-            });
-            setDepartamento(listaDeps[0]);
-            
-            buscarProvinciasDep(listaDeps[0].idDepartamento)
-            .then( listaProvs => {
-                    // console.log(listaProvs);
-                    setListaProvincias(listaProvs);
-                    setProvincia(listaProvs[0]);
-
-                    buscarDistritosProv(listaProvs[0].idProvincia)
-                    .then(listaDists => {
-                        setDistrito(listaDists[0]);
-                        setListaDistritos(listaDists);
-                        
-                    })
-                    .catch( error => {
-                        console.error('Error:', error);
-                    });
-                    
-                    //Temporal
-                    
-            }).catch( error => {
-                console.error('Error:', error);
-            });  
-                      
-        }).catch( error => {
-            console.error('Error:', error);
-        }); 
-     
 }, [] );
 
   return (
-    <div className="contenedorBotones">
+    <>
+      <div className="contenedorBotones">
       {/* Línea de botones */}
       <div className="botones">
         
         <button className="boton-con-icono" onClick={openModal}><img src={nuevo} alt="Icono" className="icono" />Nuevo</button>
-        {isOpen && (
-          <div className="nuevoModal">
-            <div className="contenidoNuevoModal">
-              <span className="close" onClick={closeModal}>
-                &times;
-              </span>
-              <h2>Formulario</h2>
-              <form onSubmit={handleSubmit}>
-                <label>
-                  Nombres:
-                  <input
-                    type="text"
-                    name="nombre"
-                    value={formData.nombre}
-                    onChange={handleInputChange2}
-                    required
-                  />
-                </label>
-                <label>
-                  Apellido Paterno:
-                  <input
-                    type="text"
-                    name="apellido_paterno"
-                    value={formData.apellido_paterno}
-                    onChange={handleInputChange2}
-                    required
-                  />
-                </label>
-                <label>
-                  Apellido Materno:
-                  <input
-                    type="text"
-                    name="apellido_materno"
-                    value={formData.apellido_materno}
-                    onChange={handleInputChange2}
-                  />
-                </label>
-                <label>
-                  DNI:
-                  <input
-                    type="text"
-                    name="dni"
-                    value={formData.dni}
-                    pattern="[0-9]{8}"
-                    onChange={handleInputChange2}
-                    required
-                  />
-                </label>
-                <label>
-                  Correo electrónico:
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange2}
-                    required
-                  />
-                </label>
-                <label>
-                  Teléfono celular:
-                  <input
-                    type="text"
-                    name="telefono"
-                    value={formData.telefono}
-                    onChange={handleInputChange2}
-                    required
-                  />
-                </label>
-                <label>
-                  Departamento
-                  <select onChange={(e) => cambioDepartamento(parseInt(e.target.value))} className='Resultado' value={departamento && departamento.idDepartamento}>
-                                        {listaDepartamentos && listaDepartamentos.map((option) => (
-                                        <option key={option.idDepartamento} value={option.idDepartamento}>
-                                            {option.nombre}
-                                        </option>
-                                    ))}
-                  </select>
-                </label>
-                <label>
-                    Provincia: 
-                    <select onChange={(e) => cambioProvincia(parseInt(e.target.value))} className='Resultado' value={provincia && provincia.idProvincia}>
-                                        {listaProvincias && listaProvincias.map((option) => (
-                                        <option key={option.idProvincia} value={option.idProvincia}>
-                                            {option.nombre}
-                                        </option>
-                                    ))}
-                    </select>
-                </label>
-                <label>
-                  Distrito:
-                  <select onChange={(e) => cambioDistrito(parseInt(e.target.value))} className='Resultado' value={distrito && distrito.idDistrito}>
-                                        {listaDistritos && listaDistritos.map((option) => (
-                                        <option key={option.idDistrito} value={option.idDistrito}>
-                                            {option.nombre}
-                                        </option>
-                                    ))}
-                  </select>
-                </label>
-
-                {/* Agrega aquí los campos adicionales de tu formulario */}
-                <br/>
-                <br/>
-                <div style={centrarBotonEnviar}>
-                  <button type="submit" className='btnGeneral'>Enviar</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
+        
       
         <button className="boton-con-icono" onClick={handleFileSelect}><img src={cargaMasiva} alt="Icono" className="icono" />Carga Masiva</button>
         <button className="boton-con-icono" onClick={() => handleExportarClick(listaObjetos)}><img src={exportar} alt="Icono" className="icono" />Exportar</button>
@@ -424,27 +218,6 @@ function BotonesYPaginacionEstandar({
         tabIndex="-1"
         role="dialog"
       >
-        <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Confirmar Eliminación</h5>
-              <button type="button" className="close" onClick={cancelarEliminar}>
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div className="modal-body">
-              <p>¿Estás seguro de que deseas eliminar el/los cliente(s) seleccionado(s)?</p>
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-danger" onClick={confirmarEliminar}>
-                Eliminar
-              </button>
-              <button type="button" className="btn btn-secondary" onClick={cancelarEliminar}>
-                Cancelar
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
 
       <div className="cantidadLineas">
@@ -475,7 +248,27 @@ function BotonesYPaginacionEstandar({
           Siguiente
         </button>
       </div>
-    </div>
+      </div>
+      {modalCargaMasiva && (
+        <ModalCargaMasivaListaNegra
+          listaErrores={listaErroresCargaMasiva}
+          setActualizarLista={setActualizarLista}
+          setMostrarModal={setModalCargaMasiva}
+        />
+      )}
+
+      {modalEliminacion && (
+        <ModalEliminacionMarca
+          listaObjetosSeleccionados={objetosSeleccionados}
+          setListaObjetosSeleccionados={setObjetosSeleccionados}
+          setActualizarLista={setActualizarLista}
+          setMostrarModal={setModalEliminacion}
+        />
+      )}
+
+
+    </>
+    
   );
 }
 

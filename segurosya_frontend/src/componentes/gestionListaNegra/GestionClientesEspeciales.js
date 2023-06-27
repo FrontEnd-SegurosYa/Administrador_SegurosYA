@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './GestionClientesEspeciales.css';
 import '../../index.css';
 import { obtenerClientesEspeciales, dividirPaginas,cargaMasivaPrueba, cargaMasivaClientesEspeciales, eliminarClienteEspecial } from './funcionesExtras';
-import BotonesPaginacion from '../componenteAbajoAdmin/BotonesYPaginacion'
-import BotonesYPaginacionEstandar from '../componenteAbajoAdmin/BotonesYPaginacionEstandar'
+import BotonesPaginacion from '../componenteAbajoAdmin/BotonesYPaginacion';
+import BotonesYPaginacionEstandar from '../componenteAbajoAdmin/BotonesYPaginacionEstandar';
+import { ModalCargaMasivaListaNegra } from './ModalesListaNegra';
 
 
 const MAX_LINEAS_POR_PAGINA = 15;
@@ -15,9 +16,12 @@ function GestionClientesEspeciales() {
   const [indicePagina, setIndicePagina] = useState(0);
   const [cantidadLineas, setCantidadLineas] = useState(CANTIDAD_LINEAS_POR_DEFECTO);
   const [clientesEspecialesSeleccionados, setClientesEspecialesSeleccionados] = useState([]);
+  const [listaErrores,setListaErrores] = useState([]);
+
 
   const [actualizarLista, setActualizarLista] = useState(false);
   const [mostrarModal, setMostrarModal] = useState(false);
+  const [mostrarModalCargaMasiva,setMostrarModalCargaMasiva] = useState(false);
 
 
 
@@ -110,7 +114,7 @@ function GestionClientesEspeciales() {
                 </td>
                 <td key={cabeceraTabla[1]}> {clienteEspecial.tipoDoc} </td>
                 <td key={cabeceraTabla[2]}> {clienteEspecial.numDoc} </td>
-                <td key={cabeceraTabla[3]}> {clienteEspecial.nombre+" "+clienteEspecial.apellidoPaterno+" "+clienteEspecial.apellidoMaterno} </td>
+                <td key={cabeceraTabla[3]}> {clienteEspecial.nombre} </td>
                 <td key={cabeceraTabla[4]}> {clienteEspecial.motivo} </td>
                 <td key={cabeceraTabla[5]}><button>Editar</button></td>
               </tr>
@@ -134,8 +138,16 @@ function GestionClientesEspeciales() {
           setMostrarModal={setMostrarModal}
           eliminarObjeto={eliminarClienteEspecial}
           nombreObjeto={"ClienteEspecial"}
+          
         />
       </div>
+
+      {/* {mostrarModalCargaMasiva && (
+        <ModalCargaMasivaListaNegra
+          setActualizarLista={setActualizarLista}
+          setMostrarModal={setMostrarModalCargaMasiva}
+        />
+      )} */}
     </>
   );
 }

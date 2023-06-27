@@ -28,7 +28,7 @@ export function cargaMasivaClientesEspeciales (archivo) {
       if (!response.ok) {
           throw new Error('File upload failed');
       }else{
-          return response.text();
+          return response.json();
       }            
   })
   .catch(error => {

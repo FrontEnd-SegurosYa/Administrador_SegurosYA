@@ -1,0 +1,4 @@
+# Direccion DNS IPv4 publica de servidor Front-End (Este computador) (sin http al inicio) 
+linkFrontEnd=ec2-52-87-21-162.compute-1.amazonaws.com
+# Direccion publica de servidor Back-End (con http incluido al inicio)
+linkBackEnd=http://44.198.73.103
