@@ -38,7 +38,7 @@ export const IniciarSesion = () => {
   
     
   return (
-    <div className='IniciarSesion'>
+    <div className='IniciarSesion' data-testid='iniciarsesion'>
       <div className='Imagen'>
         <img className='ImgMujer' src={mujer}/>
       </div>

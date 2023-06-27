@@ -42,7 +42,7 @@ const router = createBrowserRouter([
     },
     {
       path: "/reportes",
-      element: <Reportes/>,
+      element: <PaginaReporteSoatVendidos/>,
     },
     {
       path: "/cotizaciones",

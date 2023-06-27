@@ -72,7 +72,7 @@ function GestionUsuarios() {
   };
 
   return (
-    <>
+    <div data-testid='gestionUsuarios'>
       <div id='ContenedorGestionClientes'>
         <table id='TablaCLientes'>      
           <thead>            
@@ -125,7 +125,7 @@ function GestionUsuarios() {
           nombreObjeto={"Usuario"}
         />
       </div>
-    </>
+    </div>
   );
 }
 
